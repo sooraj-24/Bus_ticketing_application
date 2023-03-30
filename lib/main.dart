@@ -1,6 +1,13 @@
+import 'package:buts/Features/Home/View/home.dart';
+import 'package:buts/Features/SignIn/Controller/sign_in_provider.dart';
+import 'package:buts/Features/SignUp/Controller/sign_up_provider.dart';
+import 'package:buts/Features/Splash/View/splash_screen.dart';
+import 'package:buts/Features/VerifyEmail/Controller/verify_email_provider.dart';
+import 'package:buts/Features/VerifyEmail/View/verify_email_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:buts/Screens/sign_in.dart';
-import 'package:buts/Screens/sign_up.dart';
+import 'package:buts/Features/SignIn/View/sign_in.dart';
+import 'package:buts/Features/SignUp/View/sign_up.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,12 +18,26 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        fontFamily: 'Raleway',
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => SignInProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => VerifyEmailProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => SignUpProvider(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'BuTS',
+        theme: ThemeData(
+          fontFamily: 'Poppins',
+        ),
+        home: SignUpScreen(),
       ),
-      home: SignInScreen(),
     );
   }
 }
