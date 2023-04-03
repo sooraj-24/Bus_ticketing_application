@@ -7,3 +7,5 @@ const Color kAccentBlue = Color(0xFFF0F3FA);
 const Color kGrey = Colors.grey;
 const Color kWhite = Colors.white;
 const Color kBlack = Colors.black;
+
+enum ViewState { Idle, Busy, Error, Success }

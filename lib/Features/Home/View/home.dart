@@ -119,10 +119,10 @@ class _HomePageState extends State<HomePage> {
                           child: Padding(
                             padding: const EdgeInsets.only(top: 25,left: 25,right: 25,bottom: 20),
                             child: Container(
-                              padding: EdgeInsets.all(5),
+                              padding: EdgeInsets.all(3),
                               decoration: BoxDecoration(
                                 color: kYellow,
-                                borderRadius: BorderRadius.all(Radius.circular(30))
+                                borderRadius: BorderRadius.all(Radius.circular(25))
                               ),
                               child: Row(
                                 children: toCity ? [
@@ -242,7 +242,7 @@ class _HomePageState extends State<HomePage> {
                                             selectedIndex = index;
                                           });
                                         },
-                                          isSelected: index == selectedIndex ? false : true,);
+                                          isSelected: index == selectedIndex ? true : false,);
                                       }),
                                     ),
                                   ),
@@ -331,7 +331,7 @@ class _BusSelectionCardState extends State<BusSelectionCard> {
         height: 55,
         decoration: BoxDecoration(
           color: kAccentBlue,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: BorderRadius.all(Radius.circular(15)),
           border: isSelected ? Border.all(color: kBlue) : null,
         ),
         child: Row(
@@ -374,12 +374,11 @@ class _BusSelectionCardState extends State<BusSelectionCard> {
                     children: [
                       Text('48',
                         style: TextStyle(
-                          fontSize: 15,
-                          fontFamily: 'Inter',
+                          fontSize: 12,
                         ),),
                       Text('Seats left',
                         style: TextStyle(
-                            fontSize: 12
+                            fontSize: 10
                         ),)
                     ],
                   ),

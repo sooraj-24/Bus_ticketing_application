@@ -1,9 +1,11 @@
+import 'package:another_flushbar/flushbar.dart';
+import 'package:buts/Features/SignIn/View/sign_in.dart';
 import 'package:buts/Features/VerifyEmail/Controller/verify_email_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-
 import '../../../Constants/constants.dart';
+import '../../SignUp/View/sign_up.dart';
 
 class VerifyEmailScreen extends StatelessWidget {
   const VerifyEmailScreen({Key? key}) : super(key: key);
@@ -88,10 +90,10 @@ class VerifyEmailScreen extends StatelessWidget {
                                     child: Center(
                                       child: TextFormField(
                                         onChanged: (value) {
-                                          controller.updateEmail(value);
+                                          controller.updateEmail(value.toLowerCase());
                                         },
                                         onFieldSubmitted: (value){
-                                          controller.updateEmail(value);
+                                          controller.updateEmail(value.toLowerCase());
                                         },
                                         keyboardType: TextInputType.emailAddress,
                                         textInputAction: TextInputAction.done,
@@ -117,15 +119,53 @@ class VerifyEmailScreen extends StatelessWidget {
                                 Expanded(
                                   flex: 2,
                                   child: GestureDetector(
-                                    onTap: (){},
+                                    onTap: () async {
+                                      if(controller.getEmail.isEmpty){
+                                        Flushbar(
+                                          message: "Enter an Email",
+                                          icon: Icon(
+                                            Icons.info_outline,
+                                            size: 28.0,
+                                            color: Colors.blue[300],
+                                          ),
+                                          duration: const Duration(seconds: 2),
+                                          leftBarIndicatorColor: Colors.blue[300],
+                                          flushbarPosition: FlushbarPosition.TOP,
+                                        ).show(context);
+                                      } else {
+                                        try {
+                                          await controller.fetchData();
+                                          if(controller.user.message == "Exists"){
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => SignInScreen()));
+                                          } else {
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen()));
+                                          }
+                                        } catch(e) {
+                                          Flushbar(
+                                            message: e.toString(),
+                                            icon: Icon(
+                                              Icons.info_outline,
+                                              size: 28.0,
+                                              color: Colors.blue[300],
+                                            ),
+                                            duration: const Duration(seconds: 2),
+                                            leftBarIndicatorColor: Colors.blue[300],
+                                            flushbarPosition: FlushbarPosition.TOP,
+                                          ).show(context);
+                                        }
+                                      }
+                                    },
                                     child: Container(
                                       decoration: const BoxDecoration(
                                         color: kBlue,
                                         borderRadius:
                                         BorderRadius.all((Radius.circular(20))),
                                       ),
-                                      child: const Center(
-                                        child: Text(
+                                      child: Center(
+                                        child: controller.state == ViewState.Busy ? const SizedBox(
+                                            height:18,
+                                            width: 18,
+                                            child: CircularProgressIndicator(color: kWhite,strokeWidth: 3,)) : const Text(
                                           'Submit',
                                           style: TextStyle(
                                             fontSize: 16,
