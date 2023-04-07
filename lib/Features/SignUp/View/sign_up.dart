@@ -325,7 +325,7 @@ class SignUpScreen extends StatelessWidget {
                                       if(!controller.getConfirmPassError && !controller.getPasswordError && !controller.getRollNoError && !controller.getUsernameError){
                                         formKey.currentState?.save();
                                         Navigator.push(context, MaterialPageRoute(builder: (context){
-                                          return const HomePage();
+                                          return HomePage();
                                         }));
                                       }
                                     },

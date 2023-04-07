@@ -1,3 +1,4 @@
+import 'package:buts/Features/Home/Controller/home_page_provider.dart';
 import 'package:buts/Features/Home/View/home.dart';
 import 'package:buts/Features/SignIn/Controller/sign_in_provider.dart';
 import 'package:buts/Features/SignUp/Controller/sign_up_provider.dart';
@@ -29,6 +30,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => SignUpProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => HomePageProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -36,7 +40,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: 'Poppins',
         ),
-        home: VerifyEmailScreen(),
+        home: HomePage(),
       ),
     );
   }
