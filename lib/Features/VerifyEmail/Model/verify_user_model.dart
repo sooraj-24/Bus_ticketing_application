@@ -12,12 +12,12 @@ class VerifyUserModel {
   VerifyUserModel({
     required this.status,
     required this.message,
-    required this.email,
+    this.email,
   });
 
   bool status;
   String message;
-  String email;
+  String? email;
 
   factory VerifyUserModel.fromJson(Map<String, dynamic> json) => VerifyUserModel(
     status: json["status"],

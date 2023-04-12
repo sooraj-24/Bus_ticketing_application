@@ -321,6 +321,7 @@ class SignUpScreen extends StatelessWidget {
                                   flex: 2,
                                   child: GestureDetector(
                                     onTap: () {
+                                      FocusScope.of(context).requestFocus(FocusNode());
                                       final isValid = formKey.currentState?.validate();
                                       if(!controller.getConfirmPassError && !controller.getPasswordError && !controller.getRollNoError && !controller.getUsernameError){
                                         formKey.currentState?.save();

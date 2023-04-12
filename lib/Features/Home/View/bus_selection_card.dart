@@ -18,7 +18,7 @@ class BusSelectionCard extends StatelessWidget {
           },
           child: Container(
             margin: EdgeInsets.only(bottom: 18),
-            padding: EdgeInsets.symmetric(horizontal: 18,vertical: 12),
+            padding: EdgeInsets.symmetric(horizontal: 18,vertical: 6),
             height: 55,
             decoration: BoxDecoration(
               color: kAccentBlue,
@@ -31,32 +31,35 @@ class BusSelectionCard extends StatelessWidget {
               children: [
                 Expanded(
                   flex: 3,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text('3:30',
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontFamily: 'Inter'
-                            ),),
-                          SizedBox(width: 3,),
-                          Text('PM',
-                            style: TextStyle(
-                                fontSize: 12
-                            ),),
-                        ],
-                      ),
-                      VerticalDivider(
-                        thickness: 1.5,
-                      ),
-                      Text('Sadar',
-                        style: TextStyle(
-                          fontSize: 15,
-                        ),),
-                    ],
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 6.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text('3:30',
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontFamily: 'Inter'
+                              ),),
+                            SizedBox(width: 3,),
+                            Text('PM',
+                              style: TextStyle(
+                                  fontSize: 12
+                              ),),
+                          ],
+                        ),
+                        VerticalDivider(
+                          thickness: 1.5,
+                        ),
+                        Text('Sadar',
+                          style: TextStyle(
+                            fontSize: 15,
+                          ),),
+                      ],
+                    ),
                   ),
                 ),
                 Expanded(
@@ -68,11 +71,11 @@ class BusSelectionCard extends StatelessWidget {
                       children: [
                         Text('48',
                           style: TextStyle(
-                            fontSize: 13,
+                            fontSize: 15,
                           ),),
                         Text('Seats left',
                           style: TextStyle(
-                              fontSize: 8
+                              fontSize: 10
                           ),)
                       ],
                     ),

@@ -1,4 +1,7 @@
+import 'package:another_flushbar/flushbar.dart';
+import 'package:buts/Features/Home/View/home.dart';
 import 'package:buts/Features/SignIn/Controller/sign_in_provider.dart';
+import 'package:buts/Features/VerifyEmail/Controller/verify_email_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:buts/Constants/constants.dart';
 import 'package:provider/provider.dart';
@@ -67,18 +70,22 @@ class SignInScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 GestureDetector(
-                                    onTap: () {},
-                                    child: Icon(Icons.arrow_back_ios,size: 15,)),
-                                SizedBox(height: 10,),
-                                const Text(
-                                  "Enter your password to Sign In",
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                Expanded(child: Container()),
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Icon(Icons.arrow_back_ios,size: 15,)),
+                                const SizedBox(height: 10,),
                                 Expanded(
                                   flex: 2,
+                                  child: const Text(
+                                    "Enter your password to Sign In",
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 3,
                                   child: Container(
                                     padding: const EdgeInsets.only(right: 5),
                                     decoration: const BoxDecoration(
@@ -125,19 +132,82 @@ class SignInScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                Expanded(child: Container()),
                                 Expanded(
                                   flex: 2,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: (){},
+                                          child: Text('Forgot Password?')
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 3,
                                   child: GestureDetector(
-                                    onTap: () {},
+                                    onTap: () async {
+                                      FocusScope.of(context).requestFocus(FocusNode());
+                                      if(controller.getPassword.isEmpty || controller.getPassword.length < 6){
+                                        Flushbar(
+                                          message: "Password length should be more than 6",
+                                          icon: Icon(
+                                            Icons.info_outline,
+                                            size: 28.0,
+                                            color: Colors.blue[300],
+                                          ),
+                                          duration: const Duration(seconds: 2),
+                                          leftBarIndicatorColor: Colors.blue[300],
+                                          flushbarPosition: FlushbarPosition.TOP,
+                                        ).show(context);
+                                      } else {
+                                        try {
+                                          await controller.fetchData(
+                                              Provider.of<VerifyEmailProvider>(context,listen: false).getUserEmail()
+                                          );
+                                          if(controller.user.message == "Logged in Successfully"){
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                                          } else {
+                                            Flushbar(
+                                              message: controller.user.message,
+                                              icon: Icon(
+                                                Icons.info_outline,
+                                                size: 28.0,
+                                                color: Colors.blue[300],
+                                              ),
+                                              duration: const Duration(seconds: 2),
+                                              leftBarIndicatorColor: Colors.blue[300],
+                                              flushbarPosition: FlushbarPosition.TOP,
+                                            ).show(context);
+                                          }
+                                        } catch(e) {
+                                          controller.updateState();
+                                          Flushbar(
+                                            message: e.toString(),
+                                            icon: Icon(
+                                              Icons.info_outline,
+                                              size: 28.0,
+                                              color: Colors.blue[300],
+                                            ),
+                                            duration: const Duration(seconds: 2),
+                                            leftBarIndicatorColor: Colors.blue[300],
+                                            flushbarPosition: FlushbarPosition.TOP,
+                                          ).show(context);
+                                        }
+                                      }
+                                    },
                                     child: Container(
                                       decoration: const BoxDecoration(
                                         color: kBlue,
                                         borderRadius: BorderRadius.all(
                                             (Radius.circular(20))),
                                       ),
-                                      child: const Center(
-                                        child: Text(
+                                      child: Center(
+                                        child: controller.state == ViewState.Busy ? const SizedBox(
+                                            height:18,
+                                            width: 18,
+                                            child: CircularProgressIndicator(color: kWhite,strokeWidth: 3,)) : const Text(
                                           'Sign In',
                                           style: TextStyle(
                                             fontSize: 16,

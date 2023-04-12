@@ -1,12 +1,14 @@
 import 'package:buts/Constants/constants.dart';
 import 'package:buts/Features/Home/Controller/home_page_provider.dart';
+import 'package:buts/Features/SignIn/Controller/sign_in_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/maki_icons.dart';
 import 'package:provider/provider.dart';
-import 'bus_selection_card.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -14,13 +16,38 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
+  late IO.Socket socket;
+
   @override
   void initState() {
-    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<HomePageProvider>(context,listen: false).updateBusCards();
     });
+    Provider.of<HomePageProvider>(context,listen: false).initSocket(Provider.of<SignInProvider>(context,listen: false).user.data?.token);
+    super.initState();
   }
+
+  // initSocket() {
+  //   socket = IO.io('https://buts-server.onrender.com/', <String, dynamic>{
+  //     'autoConnect': true,
+  //     'transports': ['websocket'],
+  //     'extraHeaders': { 'Authorization' : Provider.of<SignInProvider>(context,listen: false).user.data?.token }
+  //   });
+  //   socket.connect();
+  //   socket.onConnect((_) {
+  //     print('Connection established');
+  //   });
+  //   socket.onDisconnect((_) => print('Connection Disconnection'));
+  //   socket.onConnectError((err) => print(err));
+  //   socket.onError((err) => print(err));
+  //
+  //   socket.on('Connection_Success', (data){
+  //     print(data);
+  //   });
+  //   socket.on('Connection_Error', (data){
+  //     print(data);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -297,6 +324,13 @@ class _HomePageState extends State<HomePage> {
         },
       )
     );
+  }
+
+  @override
+  void dispose() {
+    socket.disconnect();
+    socket.dispose();
+    super.dispose();
   }
 }
 

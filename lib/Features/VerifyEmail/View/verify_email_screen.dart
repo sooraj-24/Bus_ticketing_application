@@ -120,6 +120,7 @@ class VerifyEmailScreen extends StatelessWidget {
                                   flex: 2,
                                   child: GestureDetector(
                                     onTap: () async {
+                                      FocusScope.of(context).requestFocus(FocusNode());
                                       if(controller.getEmail.isEmpty){
                                         Flushbar(
                                           message: "Enter an Email",
@@ -141,6 +142,7 @@ class VerifyEmailScreen extends StatelessWidget {
                                             Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen()));
                                           }
                                         } catch(e) {
+                                          controller.updateState();
                                           Flushbar(
                                             message: e.toString(),
                                             icon: Icon(

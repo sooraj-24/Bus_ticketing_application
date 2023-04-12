@@ -15,6 +15,11 @@ class VerifyEmailProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateState(){
+    state = ViewState.Error;
+    notifyListeners();
+  }
+
   Future fetchData() async {
     state = ViewState.Busy;
     notifyListeners();
@@ -40,5 +45,13 @@ class VerifyEmailProvider extends ChangeNotifier {
     }
     state = ViewState.Success;
     notifyListeners();
+  }
+
+  String getUserEmail(){
+    if(user.email != null){
+      return user.email!;
+    } else {
+      return "User does not exist, please Sign Up";
+    }
   }
 }
