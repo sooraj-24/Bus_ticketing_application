@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<HomePageProvider>(context,listen: false).updateBusCards();
     });
-    Provider.of<HomePageProvider>(context,listen: false).initSocket(Provider.of<SignInProvider>(context,listen: false).user.data?.token);
+    // Provider.of<HomePageProvider>(context,listen: false).initSocket(Provider.of<SignInProvider>(context,listen: false).user.data?.token);
     super.initState();
   }
 

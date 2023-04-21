@@ -1,6 +1,7 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:buts/Features/SignIn/View/sign_in.dart';
 import 'package:buts/Features/VerifyEmail/Controller/verify_email_provider.dart';
+import 'package:buts/Features/VerifyEmail/View/verify_otp_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -138,8 +139,8 @@ class VerifyEmailScreen extends StatelessWidget {
                                           await controller.fetchData();
                                           if(controller.user.message == "Exists"){
                                             Navigator.push(context, MaterialPageRoute(builder: (context) => SignInScreen()));
-                                          } else {
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen()));
+                                          } else if(controller.user.message == "OTP sent successfully"){
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => VerifyOtpScreen()));
                                           }
                                         } catch(e) {
                                           controller.updateState();

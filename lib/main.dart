@@ -1,10 +1,12 @@
 import 'package:buts/Features/Home/Controller/home_page_provider.dart';
 import 'package:buts/Features/Home/View/home.dart';
+import 'package:buts/Features/MyBookings/View/my_bookings_page.dart';
 import 'package:buts/Features/SignIn/Controller/sign_in_provider.dart';
 import 'package:buts/Features/SignUp/Controller/sign_up_provider.dart';
 import 'package:buts/Features/Splash/View/splash_screen.dart';
 import 'package:buts/Features/VerifyEmail/Controller/verify_email_provider.dart';
 import 'package:buts/Features/VerifyEmail/View/verify_email_screen.dart';
+import 'package:buts/Features/VerifyEmail/View/verify_otp_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:buts/Features/SignIn/View/sign_in.dart';
 import 'package:buts/Features/SignUp/View/sign_up.dart';

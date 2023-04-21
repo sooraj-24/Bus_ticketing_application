@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:buts/Features/VerifyEmail/Model/verify_user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +29,7 @@ class SignInProvider extends ChangeNotifier {
     state = ViewState.Busy;
     notifyListeners();
     http.Response response;
-    var url = Uri.parse("https://buts-server.onrender.com/user/loginUser");
+    var url = Uri.parse("https://buts.vercel.app/user/loginUser");
     var data = {
       "password": _password,
       "email": email,
