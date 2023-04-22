@@ -2,6 +2,7 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:buts/Features/Home/View/home.dart';
 import 'package:buts/Features/SignIn/Controller/sign_in_provider.dart';
 import 'package:buts/Features/VerifyEmail/Controller/verify_email_provider.dart';
+import 'package:buts/Features/VerifyEmail/View/verify_otp_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:buts/Constants/constants.dart';
 import 'package:provider/provider.dart';
@@ -75,9 +76,9 @@ class SignInScreen extends StatelessWidget {
                                     },
                                     child: const Icon(Icons.arrow_back_ios,size: 15,)),
                                 const SizedBox(height: 10,),
-                                Expanded(
+                                const Expanded(
                                   flex: 2,
-                                  child: const Text(
+                                  child: Text(
                                     "Enter your password to Sign In",
                                     style: TextStyle(
                                         fontSize: 18,
@@ -138,7 +139,28 @@ class SignInScreen extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       GestureDetector(
-                                        onTap: (){},
+                                        onTap: () async {
+                                          try {
+                                            await controller.forgotPasswordSendOTP(Provider.of<VerifyEmailProvider>(context,listen: false).getEmail);
+                                            if(controller.otpSent){
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => VerifyOtpScreen(
+                                                isForgotPasswordScreen: true,
+                                              )));
+                                            }
+                                          } catch(e) {
+                                            Flushbar(
+                                              message: e.toString(),
+                                              icon: Icon(
+                                                Icons.info_outline,
+                                                size: 28.0,
+                                                color: Colors.blue[300],
+                                              ),
+                                              duration: const Duration(seconds: 2),
+                                              leftBarIndicatorColor: Colors.blue[300],
+                                              flushbarPosition: FlushbarPosition.TOP,
+                                            ).show(context);
+                                          }
+                                        },
                                           child: Text('Forgot Password?')
                                       ),
                                     ],

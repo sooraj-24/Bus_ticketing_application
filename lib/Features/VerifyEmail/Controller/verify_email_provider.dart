@@ -96,4 +96,42 @@ class VerifyEmailProvider extends ChangeNotifier {
     state = ViewState.Success;
     notifyListeners();
   }
+
+  Future<void> verifyForgotPassOTP(String otp) async {
+    _otpVerified = false;
+    state = ViewState.Busy;
+    notifyListeners();
+
+    http.Response response;
+    var url = Uri.parse("https://buts-server.onrender.com/user/resetPassVerifyOTP");
+    var data = {
+      "username": _email,
+      "otp": otp
+    };
+    var body = json.encode(data);
+    response = await http.post(url,body: body,headers: {
+      "Content-Type": "application/json"
+    }).catchError((e){
+      state = ViewState.Error;
+      notifyListeners();
+      throw Exception(e.toString());
+    });
+    if(response.statusCode == 200){
+      _otpVerified = true;
+      state = ViewState.Success;
+      notifyListeners();
+    } else if(response.statusCode == 400){
+      state = ViewState.Error;
+      _otpVerified = false;
+      notifyListeners();
+      throw Exception("Invalid OTP!");
+    } else {
+      state = ViewState.Error;
+      _otpVerified = false;
+      notifyListeners();
+      throw Exception("Error code: ${response.statusCode}");
+    }
+    state = ViewState.Success;
+    notifyListeners();
+  }
 }

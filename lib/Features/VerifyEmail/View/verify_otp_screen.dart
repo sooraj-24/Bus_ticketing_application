@@ -9,7 +9,8 @@ import '../../../Constants/constants.dart';
 //ignore: must_be_immutable
 class VerifyOtpScreen extends StatelessWidget {
   String otp = "";
-  VerifyOtpScreen({super.key});
+  final bool isForgotPasswordScreen;
+  VerifyOtpScreen({super.key, required this.isForgotPasswordScreen});
 
   @override
   Widget build(BuildContext context) {
@@ -126,9 +127,16 @@ class VerifyOtpScreen extends StatelessWidget {
                                     ).show(context);
                                   } else {
                                     try {
-                                      await controller.verifyOtp(otp);
-                                      if(controller.isOtpVerified){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen()));
+                                      if(isForgotPasswordScreen){
+                                        await controller.verifyForgotPassOTP(otp);
+                                        if(controller.isOtpVerified){
+                                          print("otp verified");
+                                        }
+                                      } else {
+                                        await controller.verifyOtp(otp);
+                                        if(controller.isOtpVerified){
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen()));
+                                        }
                                       }
                                     } catch(e) {
                                       Flushbar(

@@ -14,6 +14,8 @@ class SignInProvider extends ChangeNotifier {
   bool get getIsPasswordVisible => _isPasswordVisible;
   ViewState state = ViewState.Idle;
   late UserModel user;
+  bool otpSent = false;
+  late String username;
 
   void updatePassword(String password){
     _password = password;
@@ -22,6 +24,11 @@ class SignInProvider extends ChangeNotifier {
 
   void togglePasswordVisibility(){
     _isPasswordVisible = !_isPasswordVisible;
+    notifyListeners();
+  }
+
+  void updateState(){
+    state = ViewState.Error;
     notifyListeners();
   }
 
@@ -54,9 +61,34 @@ class SignInProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateState(){
-    state = ViewState.Error;
+  Future<void> forgotPasswordSendOTP(String username) async {
+    this.username = username;
+    state = ViewState.Busy;
+    notifyListeners();
+
+    http.Response response;
+    var url = Uri.parse("https://buts-server.onrender.com/user/resetPassSendOTP");
+    var data = {
+      "username": username
+    };
+    var body = json.encode(data);
+    response = await http.post(url,body: body,headers: {
+      "Content-Type": "application/json"
+    }).catchError((e){
+      state = ViewState.Error;
+      notifyListeners();
+      throw Exception(e.toString());
+    });
+    if(response.statusCode == 200){
+      otpSent = true;
+      notifyListeners();
+    } else {
+      otpSent = false;
+      state = ViewState.Error;
+      notifyListeners();
+      throw Exception("Error code: ${response.statusCode}");
+    }
+    state = ViewState.Success;
     notifyListeners();
   }
-
 }
