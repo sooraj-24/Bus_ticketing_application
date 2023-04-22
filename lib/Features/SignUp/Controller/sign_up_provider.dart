@@ -1,4 +1,10 @@
+import 'dart:convert';
+
+import 'package:buts/Constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+import '../../SignIn/Model/user_model.dart';
 
 class SignUpProvider extends ChangeNotifier {
   String _rollNo = '';
@@ -22,6 +28,9 @@ class SignUpProvider extends ChangeNotifier {
   bool get getPasswordError => _passwordError;
   String get getPasswordErrorText => _passwordErrorText;
   bool get getConfirmPassError => _confirmPassError;
+  
+  ViewState state = ViewState.Idle;
+  late UserModel user;
 
   void updateRollNo(String rollNo){
     _rollNo = rollNo;
@@ -70,6 +79,38 @@ class SignUpProvider extends ChangeNotifier {
 
   void updateConfirmPassError(bool error){
     _confirmPassError = error;
+    notifyListeners();
+  }
+
+  Future<void> registerUser(String token) async {
+    state = ViewState.Busy;
+    notifyListeners();
+    
+    http.Response response;
+    var url = Uri.parse("https://buts-server.onrender.com/user/registerUser");
+    var data = {
+      "name": _username,
+      "password": _password,
+      "rollno": _rollNo
+    };
+    var body = jsonEncode(data);
+    response = await http.post(url,body: body,headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token"
+    }).catchError((e){
+      state = ViewState.Error;
+      notifyListeners();
+      throw Exception(e.toString());
+    });
+    if(response.statusCode == 200){
+      user = userModelFromJson(response.body);
+      notifyListeners();
+    } else {
+      state = ViewState.Error;
+      notifyListeners();
+      throw Exception("Error code: ${response.statusCode}");
+    }
+    state = ViewState.Success;
     notifyListeners();
   }
 }

@@ -11,6 +11,7 @@ class VerifyEmailProvider extends ChangeNotifier {
   ViewState state = ViewState.Idle;
   bool _otpVerified = false;
   bool get isOtpVerified => _otpVerified;
+  String token = "";
 
   void updateEmail(String email){
     _email = email;
@@ -34,7 +35,7 @@ class VerifyEmailProvider extends ChangeNotifier {
     state = ViewState.Busy;
     notifyListeners();
     http.Response response;
-    var url = Uri.parse("https://buts.vercel.app/user/usercheck");
+    var url = Uri.parse("https://buts-server.onrender.com/user/usercheck");
     var data = {
       "username": _email
     };
@@ -62,9 +63,9 @@ class VerifyEmailProvider extends ChangeNotifier {
     notifyListeners();
 
     http.Response response;
-    var url = Uri.parse("https://buts.vercel.app/user/verifyOTP");
+    var url = Uri.parse("https://buts-server.onrender.com/user/verifyOTP");
     var data = {
-      "username": "20bec105",
+      "username": _email,
       "otp": otp
     };
     var body = json.encode(data);
@@ -76,8 +77,10 @@ class VerifyEmailProvider extends ChangeNotifier {
       throw Exception(e.toString());
     });
     if(response.statusCode == 200){
-      state = ViewState.Success;
+      Map<String,dynamic> output = jsonDecode(response.body);
+      token = output["token"];
       _otpVerified = true;
+      state = ViewState.Success;
       notifyListeners();
     } else if(response.statusCode == 400){
       state = ViewState.Error;

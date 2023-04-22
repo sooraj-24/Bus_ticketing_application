@@ -29,7 +29,7 @@ class SignInProvider extends ChangeNotifier {
     state = ViewState.Busy;
     notifyListeners();
     http.Response response;
-    var url = Uri.parse("https://buts.vercel.app/user/loginUser");
+    var url = Uri.parse("https://buts-server.onrender.com/user/loginUser");
     var data = {
       "password": _password,
       "email": email,
@@ -44,6 +44,7 @@ class SignInProvider extends ChangeNotifier {
     });
     if(response.statusCode == 200){
       user = userModelFromJson(response.body);
+      notifyListeners();
     } else {
       state = ViewState.Error;
       notifyListeners();

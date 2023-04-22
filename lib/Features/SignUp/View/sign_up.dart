@@ -1,6 +1,8 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:buts/Constants/constants.dart';
 import 'package:buts/Features/Home/View/home.dart';
 import 'package:buts/Features/SignUp/Controller/sign_up_provider.dart';
+import 'package:buts/Features/VerifyEmail/Controller/verify_email_provider.dart';
 import 'package:buts/Features/VerifyEmail/View/verify_email_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,6 +28,7 @@ class SignUpScreen extends StatelessWidget {
             child: SafeArea(
               child: Column(
                 children: [
+
                   Expanded(
                     flex: 2,
                     child: Padding(
@@ -33,17 +36,27 @@ class SignUpScreen extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
+                        children: [
+                          GestureDetector(
+                            onTap: (){
+                              Navigator.pop(context);
+                            },
+                            child: const Icon(
+                              Icons.arrow_back_ios_rounded,
+                              color: Colors.black,
+                            ),
+                          ),
+                          const Expanded(child: SizedBox()),
+                          const Text(
                             'Sign Up',
                             style: TextStyle(
                                 fontSize: 28, fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Text(
-                            'No account found for the given Email. Create new account and start booking tickets.',
+                            "Create an account for the email, ${Provider.of<VerifyEmailProvider>(context).getEmail}@iiitdmj.ac.in",
                             style: TextStyle(fontSize: 15),
                           )
                         ],
@@ -320,14 +333,43 @@ class SignUpScreen extends StatelessWidget {
                                 Expanded(
                                   flex: 2,
                                   child: GestureDetector(
-                                    onTap: () {
+                                    onTap: () async {
                                       FocusScope.of(context).requestFocus(FocusNode());
                                       final isValid = formKey.currentState?.validate();
                                       if(!controller.getConfirmPassError && !controller.getPasswordError && !controller.getRollNoError && !controller.getUsernameError){
                                         formKey.currentState?.save();
-                                        Navigator.push(context, MaterialPageRoute(builder: (context){
-                                          return HomePage();
-                                        }));
+                                        try{
+                                          await controller.registerUser(Provider.of<VerifyEmailProvider>(context, listen: false).token);
+                                          if(controller.user.message == "Registered Successfully!"){
+                                            Navigator.push(context, MaterialPageRoute(builder: (context){
+                                              return HomePage();
+                                            }));
+                                          } else {
+                                            Flushbar(
+                                              message: controller.user.message,
+                                              icon: Icon(
+                                                Icons.info_outline,
+                                                size: 28.0,
+                                                color: Colors.blue[300],
+                                              ),
+                                              duration: const Duration(seconds: 2),
+                                              leftBarIndicatorColor: Colors.blue[300],
+                                              flushbarPosition: FlushbarPosition.TOP,
+                                            ).show(context);
+                                          }
+                                        } catch(e) {
+                                          Flushbar(
+                                            message: e.toString(),
+                                            icon: Icon(
+                                              Icons.info_outline,
+                                              size: 28.0,
+                                              color: Colors.blue[300],
+                                            ),
+                                            duration: const Duration(seconds: 2),
+                                            leftBarIndicatorColor: Colors.blue[300],
+                                            flushbarPosition: FlushbarPosition.TOP,
+                                          ).show(context);
+                                        }
                                       }
                                     },
                                     child: Container(
@@ -336,8 +378,11 @@ class SignUpScreen extends StatelessWidget {
                                         borderRadius:
                                         BorderRadius.all((Radius.circular(20))),
                                       ),
-                                      child: const Center(
-                                        child: Text(
+                                      child: Center(
+                                        child: controller.state == ViewState.Busy ? const SizedBox(
+                                            height:18,
+                                            width: 18,
+                                            child: CircularProgressIndicator(color: kWhite,strokeWidth: 3,)) : Text(
                                           "Sign Up",
                                           style: TextStyle(
                                             fontSize: 16,
