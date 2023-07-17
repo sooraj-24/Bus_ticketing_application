@@ -87,7 +87,7 @@ class SignUpProvider extends ChangeNotifier {
     notifyListeners();
     
     http.Response response;
-    var url = Uri.parse("https://buts-server.onrender.com/user/registerUser");
+    var url = Uri.parse("https://buts-server.onrender.com/user/register");
     var data = {
       "name": _username,
       "password": _password,

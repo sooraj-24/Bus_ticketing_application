@@ -27,28 +27,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  // initSocket() {
-  //   socket = IO.io('https://buts-server.onrender.com/', <String, dynamic>{
-  //     'autoConnect': true,
-  //     'transports': ['websocket'],
-  //     'extraHeaders': { 'Authorization' : Provider.of<SignInProvider>(context,listen: false).user.data?.token }
-  //   });
-  //   socket.connect();
-  //   socket.onConnect((_) {
-  //     print('Connection established');
-  //   });
-  //   socket.onDisconnect((_) => print('Connection Disconnection'));
-  //   socket.onConnectError((err) => print(err));
-  //   socket.onError((err) => print(err));
-  //
-  //   socket.on('Connection_Success', (data){
-  //     print(data);
-  //   });
-  //   socket.on('Connection_Error', (data){
-  //     print(data);
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -324,13 +302,6 @@ class _HomePageState extends State<HomePage> {
         },
       )
     );
-  }
-
-  @override
-  void dispose() {
-    socket.disconnect();
-    socket.dispose();
-    super.dispose();
   }
 }
 

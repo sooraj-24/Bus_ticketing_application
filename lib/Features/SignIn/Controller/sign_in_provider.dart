@@ -36,7 +36,7 @@ class SignInProvider extends ChangeNotifier {
     state = ViewState.Busy;
     notifyListeners();
     http.Response response;
-    var url = Uri.parse("https://buts-server.onrender.com/user/loginUser");
+    var url = Uri.parse("https://buts-server.onrender.com/user/login");
     var data = {
       "password": _password,
       "email": email,

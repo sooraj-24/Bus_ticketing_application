@@ -2,7 +2,6 @@ import 'package:buts/Features/Home/View/bus_selection_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-
 import '../../SignIn/Controller/sign_in_provider.dart';
 
 class HomePageProvider extends ChangeNotifier {
@@ -33,26 +32,26 @@ class HomePageProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  initSocket(String? token) {
-    socket = IO.io('https://buts-server.onrender.com/', <String, dynamic>{
-      'autoConnect': true,
-      'transports': ['websocket'],
-      'extraHeaders': { 'Authorization' : token }
-    });
-    socket.connect();
-    socket.onConnect((_) {
-      print('Connection established');
-    });
-    socket.onDisconnect((_) => print('Connection Disconnection'));
-    socket.onConnectError((err) => print(err));
-    socket.onError((err) => print(err));
-
-    socket.on('Connection_Success', (data){
-      print(data);
-    });
-    socket.on('Connection_Error', (data){
-      print(data);
-    });
-  }
+  // initSocket(String? token) {
+  //   socket = IO.io('https://buts-server.onrender.com/', <String, dynamic>{
+  //     'autoConnect': true,
+  //     'transports': ['websocket'],
+  //     'extraHeaders': { 'Authorization' : token }
+  //   });
+  //   socket.connect();
+  //   socket.onConnect((_) {
+  //     print('Connection established');
+  //   });
+  //   socket.onDisconnect((_) => print('Connection Disconnection'));
+  //   socket.onConnectError((err) => print(err));
+  //   socket.onError((err) => print(err));
+  //
+  //   socket.on('Connection_Success', (data){
+  //     print(data);
+  //   });
+  //   socket.on('Connection_Error', (data){
+  //     print(data);
+  //   });
+  // }
 
 }
