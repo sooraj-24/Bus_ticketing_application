@@ -1,6 +1,8 @@
 import 'package:buts/Features/Home/Controller/home_page_provider.dart';
 import 'package:buts/Features/Home/View/home.dart';
 import 'package:buts/Features/MyBookings/View/my_bookings_page.dart';
+import 'package:buts/Features/Queue/Controller/queue_provider.dart';
+import 'package:buts/Features/Queue/View/queue_screen.dart';
 import 'package:buts/Features/SignIn/Controller/sign_in_provider.dart';
 import 'package:buts/Features/SignUp/Controller/sign_up_provider.dart';
 import 'package:buts/Features/Splash/View/splash_screen.dart';
@@ -35,6 +37,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => HomePageProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => QueueProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -42,7 +47,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: 'Poppins',
         ),
-        home: MyBookingsPage(),
+        home: QueueScreen(),
       ),
     );
   }

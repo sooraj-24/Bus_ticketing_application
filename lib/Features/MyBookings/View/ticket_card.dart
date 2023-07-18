@@ -16,9 +16,23 @@ class TicketCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       height: 200,
-      decoration: const BoxDecoration(
-          color: Color(0xffFAD795),
-          borderRadius: BorderRadius.all(Radius.circular(15))
+      decoration: BoxDecoration(
+          color: kWhite,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              spreadRadius: 2,
+              blurRadius: 10,
+              offset: Offset(5, 5), // changes position of shadow
+            ),
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              spreadRadius: 2,
+              blurRadius: 10,
+              offset: Offset(-5, -5), // changes position of shadow
+            ),
+          ],
+          borderRadius: BorderRadius.all(Radius.circular(15)),
       ),
       child: Row(
         children: [
@@ -27,7 +41,7 @@ class TicketCard extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 20),
               decoration: const BoxDecoration(
-                  color: Color(0xff232323),
+                  color: kYellow,
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(15), bottomLeft: Radius.circular(15))
               ),
               child: Column(
@@ -35,26 +49,28 @@ class TicketCard extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 7),
                     decoration: const BoxDecoration(
-                        color: Color(0xff323232),
+                        color: kYellow,
                         borderRadius: BorderRadius.all(Radius.circular(10))
                     ),
                     child: const Text('TODAY',
                       style: TextStyle(
-                          color: kWhite,
-                          fontSize: 13
+                          color: kBlack,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 13,
                       ),),
                   ),
                   const Expanded(child: SizedBox()),
                   Text(date.day.toString(),
                     style: const TextStyle(
-                        color: kWhite,
+                        color: kBlack,
                         fontSize: 42,
-                        fontWeight: FontWeight.w500
+                        fontWeight: FontWeight.w600
                     ),),
                   Text(months[date.month-1],
                     style: const TextStyle(
-                        color: kWhite,
-                        fontSize: 14
+                        color: kBlack,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
                     ),),
                 ],
               ),
@@ -93,7 +109,7 @@ class TicketCard extends StatelessWidget {
                               width: 10,
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  border: Border.all(width: 3, color: Colors.black54)),
+                                  border: Border.all(width: 3, color: Colors.green)),
                             ),
                             const Expanded(
                               child: DottedLine(
@@ -108,7 +124,7 @@ class TicketCard extends StatelessWidget {
                               width: 10,
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  border: Border.all(width: 3, color: Colors.black54)),
+                                  border: Border.all(width: 3, color: Colors.redAccent)),
                             ),
                           ],
                         ),
@@ -129,25 +145,33 @@ class TicketCard extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 20,bottom: 20,left: 20,right: 20),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black45),
-                          borderRadius: BorderRadius.circular(15)
-                      ),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text('Generate QR',style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500
-                          ),),
-                          SizedBox(
-                            height: 10,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 20,bottom: 20,left: 20,right: 20),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: (){},
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black45),
+                                borderRadius: BorderRadius.circular(15)
+                            ),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text('Generate QR',style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500
+                                ),),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Icon(Icons.qr_code),
+                              ],
+                            ),
                           ),
-                          Icon(Icons.qr_code),
-                        ],
+                        ),
                       ),
                     )
                 ),

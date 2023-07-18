@@ -120,7 +120,6 @@ class MyBookingsPage extends StatelessWidget {
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 30),
             height: MediaQuery.of(context).size.height*0.66,
             decoration: BoxDecoration(
                 color: kWhite,
@@ -137,23 +136,28 @@ class MyBookingsPage extends StatelessWidget {
             child: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'My Bookings',
-                  style: TextStyle(
-                    fontSize: 21,
-                    fontWeight: FontWeight.w500,
+                Padding(
+                  padding: EdgeInsets.only(left: 30, right: 30, top: 25),
+                  child: Text(
+                    'My Bookings',
+                    style: TextStyle(
+                      fontSize: 21,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
-                SizedBox(height: 20,),
                 Expanded(
                   child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TicketCard(),
-                        TicketCard(),
-                        TicketCard()
-                      ],
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 30.0, right: 30, top: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TicketCard(),
+                          TicketCard(),
+                          TicketCard()
+                        ],
+                      ),
                     ),
                   ),
                 ),
