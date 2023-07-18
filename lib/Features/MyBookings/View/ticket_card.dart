@@ -21,15 +21,15 @@ class TicketCard extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.1),
-              spreadRadius: 2,
+              spreadRadius: 3,
               blurRadius: 10,
-              offset: Offset(5, 5), // changes position of shadow
+              offset: Offset(3, 3), // changes position of shadow
             ),
             BoxShadow(
               color: Colors.grey.withOpacity(0.1),
-              spreadRadius: 2,
+              spreadRadius: 3,
               blurRadius: 10,
-              offset: Offset(-5, -5), // changes position of shadow
+              offset: Offset(-3, -3), // changes position of shadow
             ),
           ],
           borderRadius: BorderRadius.all(Radius.circular(15)),

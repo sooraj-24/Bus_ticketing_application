@@ -10,14 +10,9 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:buts/Features/Queue/Controller/queue_provider.dart';
 import 'add_bus_card.dart';
 
-class QueueScreen extends StatefulWidget {
+class QueueScreen extends StatelessWidget {
   const QueueScreen({super.key});
 
-  @override
-  State<QueueScreen> createState() => _QueueScreenState();
-}
-
-class _QueueScreenState extends State<QueueScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

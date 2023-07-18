@@ -1,3 +1,4 @@
+import 'package:buts/Features/BookTicket/View/confirm_booking.dart';
 import 'package:buts/Features/Home/Controller/home_page_provider.dart';
 import 'package:buts/Features/Home/View/home.dart';
 import 'package:buts/Features/MyBookings/View/my_bookings_page.dart';
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: 'Poppins',
         ),
-        home: QueueScreen(),
+        home: ConfirmBookingPage(),
       ),
     );
   }
