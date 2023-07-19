@@ -160,8 +160,25 @@ class WalletScreen extends StatelessWidget {
                     Expanded(
                       child: ListView.builder(
                         padding: EdgeInsets.zero,
-                        itemCount: controller.transactions.length,
+                        itemCount: controller.transactions.length + 1,
                         itemBuilder: (context, index){
+                          if(index ==  controller.transactions.length){
+                            return Center(
+                              child: Container(
+                                padding: EdgeInsets.all(7),
+                                decoration: BoxDecoration(
+                                  color: kAccentBlue,
+                                  borderRadius: BorderRadius.circular(10)
+                                ),
+                                child: Text(
+                                  'Show more',
+                                  style: TextStyle(
+                                    color: kBlue
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
                           List months = ['January', 'February', 'March', 'April', 'May','June','July','Aug','September','October','November','December'];
                           DateTime dateTime = DateTime.parse(controller.transactions[index]);
                           var minute = TimeOfDay.fromDateTime(dateTime.toLocal()).minute;
