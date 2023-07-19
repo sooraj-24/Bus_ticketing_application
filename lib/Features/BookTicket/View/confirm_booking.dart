@@ -30,7 +30,7 @@ class ConfirmBookingPage extends StatelessWidget {
               height: MediaQuery.of(context).size.height*0.2,
               decoration: const BoxDecoration(
                   color: kDarkBlue,
-                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(10))
+                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(25))
               ),
               child: SafeArea(
                 child: Row(

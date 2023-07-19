@@ -10,6 +10,8 @@ import 'package:buts/Features/Splash/View/splash_screen.dart';
 import 'package:buts/Features/VerifyEmail/Controller/verify_email_provider.dart';
 import 'package:buts/Features/VerifyEmail/View/verify_email_screen.dart';
 import 'package:buts/Features/VerifyEmail/View/verify_otp_screen.dart';
+import 'package:buts/Features/Wallet/Controller/wallet_provider.dart';
+import 'package:buts/Features/Wallet/View/wallet_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:buts/Features/SignIn/View/sign_in.dart';
 import 'package:buts/Features/SignUp/View/sign_up.dart';
@@ -41,6 +43,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => QueueProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => WalletProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -48,7 +53,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: 'Poppins',
         ),
-        home: ConfirmBookingPage(),
+        home: WalletScreen(),
       ),
     );
   }
