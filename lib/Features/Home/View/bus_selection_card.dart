@@ -6,10 +6,16 @@ import '../../../Constants/constants.dart';
 
 class BusSelectionCard extends StatelessWidget {
   final int index;
-
-  const BusSelectionCard({super.key, required this.index});
+  final DateTime startTime;
+  final String destination;
+  final int capacity;
+  const BusSelectionCard({super.key, required this.index, required this.startTime, required this.destination, required this.capacity});
   @override
   Widget build(BuildContext context) {
+    var minute = TimeOfDay.fromDateTime(startTime.toLocal()).minute;
+    var hour = TimeOfDay.fromDateTime(startTime.toLocal()).hourOfPeriod;
+    var period = TimeOfDay.fromDateTime(startTime.toLocal()).period.toString();
+    period = period.substring(10).toUpperCase();
     return Consumer<HomePageProvider>(
       builder: (context, controller, child){
         return GestureDetector(
@@ -17,12 +23,12 @@ class BusSelectionCard extends StatelessWidget {
             controller.updateSelectCard(index);
           },
           child: Container(
-            margin: EdgeInsets.only(bottom: 18),
-            padding: EdgeInsets.symmetric(horizontal: 18,vertical: 6),
+            margin: const EdgeInsets.only(bottom: 18),
+            padding: const EdgeInsets.symmetric(horizontal: 18,vertical: 6),
             height: 55,
             decoration: BoxDecoration(
               color: kAccentBlue,
-              borderRadius: BorderRadius.all(Radius.circular(15)),
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
               border: index == controller.getSelectedIndex ? Border.all(color: kBlue) : null,
             ),
             child: Row(
@@ -39,23 +45,23 @@ class BusSelectionCard extends StatelessWidget {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text('3:30',
-                              style: TextStyle(
+                            Text(minute == 0 ? '$hour:${minute}0' : '$hour:$minute',
+                              style: const TextStyle(
                                   fontSize: 15,
                                   fontFamily: 'Inter'
                               ),),
-                            SizedBox(width: 3,),
-                            Text('PM',
-                              style: TextStyle(
+                            const SizedBox(width: 3,),
+                            Text(period,
+                              style: const TextStyle(
                                   fontSize: 12
                               ),),
                           ],
                         ),
-                        VerticalDivider(
+                        const VerticalDivider(
                           thickness: 1.5,
                         ),
-                        Text('Sadar',
-                          style: TextStyle(
+                        Text(destination == 'Insti' ? 'Institute' : 'Sadar',
+                          style: const TextStyle(
                             fontSize: 15,
                           ),),
                       ],
@@ -69,11 +75,11 @@ class BusSelectionCard extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text('48',
-                          style: TextStyle(
+                        Text('$capacity',
+                          style: const TextStyle(
                             fontSize: 15,
                           ),),
-                        Text('Seats left',
+                        const Text('Seats left',
                           style: TextStyle(
                               fontSize: 10
                           ),)

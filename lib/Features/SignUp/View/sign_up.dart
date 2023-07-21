@@ -342,7 +342,7 @@ class SignUpScreen extends StatelessWidget {
                                           await controller.registerUser(Provider.of<VerifyEmailProvider>(context, listen: false).token);
                                           if(controller.user.message == "Registered Successfully!"){
                                             Navigator.push(context, MaterialPageRoute(builder: (context){
-                                              return HomePage();
+                                              return HomePage(token: controller.user.data!.token!,);
                                             }));
                                           } else {
                                             Flushbar(

@@ -1,29 +1,28 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:buts/Constants/constants.dart';
+import 'package:buts/Features/BookTicket/View/confirm_booking.dart';
 import 'package:buts/Features/Home/Controller/home_page_provider.dart';
-import 'package:buts/Features/SignIn/Controller/sign_in_provider.dart';
+import 'package:buts/Features/Home/View/bus_selection_card.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/maki_icons.dart';
 import 'package:provider/provider.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
+  const HomePage({super.key, required this.token});
+  final String token;
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState(token: token);
 }
 
 class _HomePageState extends State<HomePage> {
-
-  late IO.Socket socket;
-
+  _HomePageState({required this.token});
+  final String token;
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<HomePageProvider>(context,listen: false).updateBusCards();
+    WidgetsBinding.instance.addPostFrameCallback((_)  {
+      Provider.of<HomePageProvider>(context,listen: false).getBuses(token);
     });
-    // Provider.of<HomePageProvider>(context,listen: false).initSocket(Provider.of<SignInProvider>(context,listen: false).user.data?.token);
     super.initState();
   }
 
@@ -40,10 +39,10 @@ class _HomePageState extends State<HomePage> {
                 child: Stack(
                   children: [
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 40),
+                      padding: const EdgeInsets.symmetric(horizontal: 40),
                       height: MediaQuery.of(context).size.height*0.27,
-                      alignment: Alignment(0,-0.5),
-                      decoration: BoxDecoration(
+                      alignment: const Alignment(0,-0.5),
+                      decoration: const BoxDecoration(
                           color: kDarkBlue,
                           borderRadius: BorderRadius.vertical(bottom: Radius.circular(10))
                       ),
@@ -52,7 +51,7 @@ class _HomePageState extends State<HomePage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(
+                            const Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -80,17 +79,17 @@ class _HomePageState extends State<HomePage> {
                                   backgroundColor: kWhite,
                                   child: IconButton(
                                     onPressed: (){},
-                                    icon: Icon(Icons.wallet),
+                                    icon: const Icon(Icons.wallet),
                                     color: kYellow,
                                   ),
                                 ),
-                                SizedBox(width: 10,),
+                                const SizedBox(width: 10,),
                                 CircleAvatar(
                                   radius: 20,
                                   backgroundColor: kWhite,
                                   child: IconButton(
                                     onPressed: (){},
-                                    icon: Icon(Icons.person),
+                                    icon: const Icon(Icons.person),
                                     color: kYellow,
                                   ),
                                 ),
@@ -108,19 +107,19 @@ class _HomePageState extends State<HomePage> {
                       child: Container(
                         decoration: BoxDecoration(
                           color: kWhite,
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                          borderRadius: const BorderRadius.all(Radius.circular(30)),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.05),
                               spreadRadius: 0,
                               blurRadius: 10,
-                              offset: Offset(4, 4), // changes position of shadow
+                              offset: const Offset(4, 4), // changes position of shadow
                             ),
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.05),
                               spreadRadius: 0,
                               blurRadius: 10,
-                              offset: Offset(-4, -4), // changes position of shadow
+                              offset: const Offset(-4, -4), // changes position of shadow
                             ),
                           ],
                         ),
@@ -131,8 +130,8 @@ class _HomePageState extends State<HomePage> {
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 27,left: 28,right: 28,bottom: 22),
                                 child: Container(
-                                  padding: EdgeInsets.all(3),
-                                  decoration: BoxDecoration(
+                                  padding: const EdgeInsets.all(3),
+                                  decoration: const BoxDecoration(
                                       color: kYellow,
                                       borderRadius: BorderRadius.all(Radius.circular(25))
                                   ),
@@ -140,11 +139,11 @@ class _HomePageState extends State<HomePage> {
                                     children: controller.getToCity ? [
                                       Expanded(
                                         child: Container(
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                               color: kWhite,
                                               borderRadius: BorderRadius.all(Radius.circular(30))
                                           ),
-                                          child: Row(
+                                          child: const Row(
                                             crossAxisAlignment: CrossAxisAlignment.stretch,
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
@@ -167,11 +166,11 @@ class _HomePageState extends State<HomePage> {
                                           onPressed: (){
                                             controller.getPageController.animateToPage(
                                               1,
-                                              duration: Duration(milliseconds: 300),
+                                              duration: const Duration(milliseconds: 300),
                                               curve: Curves.easeInOut,
                                             );
                                           },
-                                          icon: Icon(Maki.college,size: 22,),
+                                          icon: const Icon(Maki.college,size: 22,),
                                         ),
                                       ),
                                     ] : [
@@ -180,20 +179,20 @@ class _HomePageState extends State<HomePage> {
                                           onPressed: (){
                                             controller.getPageController.animateToPage(
                                               0,
-                                              duration: Duration(milliseconds: 300),
+                                              duration: const Duration(milliseconds: 300),
                                               curve: Curves.easeInOut,
                                             );
                                           },
-                                          icon: Icon(FontAwesome5.city,size: 14,),
+                                          icon: const Icon(FontAwesome5.city,size: 14,),
                                         ),
                                       ),
                                       Expanded(
                                         child: Container(
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                               color: kWhite,
                                               borderRadius: BorderRadius.all(Radius.circular(30))
                                           ),
-                                          child: Row(
+                                          child: const Row(
                                             crossAxisAlignment: CrossAxisAlignment.stretch,
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
@@ -229,18 +228,40 @@ class _HomePageState extends State<HomePage> {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          children: controller.getBusCards,
-                                        ),
+                                      child: controller.state == ViewState.Idle ? const Center(
+                                        child: SizedBox(
+                                          height: 25, width: 25,
+                                            child: CircularProgressIndicator(color: kBlue, strokeWidth: 2,)),
+                                      ) : ListView.builder(
+                                        padding: EdgeInsets.zero,
+                                        itemCount: controller.busesToCity.length,
+                                        itemBuilder: (context, index){
+                                          return BusSelectionCard(
+                                            index: index,
+                                            startTime: controller.busesToCity[index].startTime!,
+                                            destination: controller.busesToCity[index].destination!,
+                                            capacity: controller.busesToCity[index].capacity!,
+                                          );
+                                        },
                                       ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          children: controller.getBusCards,
-                                        ),
+                                      child: controller.state == ViewState.Idle ? const Center(
+                                        child: SizedBox(
+                                            height: 25, width: 25,
+                                            child: CircularProgressIndicator(color: kBlue, strokeWidth: 2,)),
+                                      ) : ListView.builder(
+                                        padding: EdgeInsets.zero,
+                                        itemCount: controller.busesToInstitute.length,
+                                        itemBuilder: (context, index){
+                                          return BusSelectionCard(
+                                            index: index,
+                                            startTime: controller.busesToInstitute[index].startTime!,
+                                            destination: controller.busesToInstitute[index].destination!,
+                                            capacity: controller.busesToInstitute[index].capacity!,
+                                          );
+                                        },
                                       ),
                                     ),
                                   ],
@@ -252,18 +273,44 @@ class _HomePageState extends State<HomePage> {
                               flex: 2,
                               child: Padding(
                                 padding: const EdgeInsets.only(bottom: 26,left: 28,right: 28,top: 22),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: kBlue,
-                                      borderRadius: BorderRadius.all(Radius.circular(15))
-                                  ),
-                                  child: Center(child: Text('Book Ticket',
-                                    style: TextStyle(
-                                      color: kWhite,
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w600,
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    onTap: (){
+                                      if((controller.getToCity == true && controller.getSelectedIndex >= 0 &&
+                                          controller.getSelectedIndex < controller.busesToCity.length) || (controller.getToCity == false &&
+                                      controller.getSelectedIndex >= 0 && controller.getSelectedIndex < controller.busesToInstitute.length)){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context){
+                                          return ConfirmBookingPage(token: token,);
+                                        }));
+                                      } else {
+                                        Flushbar(
+                                          message: "Please select a bus",
+                                          icon: Icon(
+                                            Icons.info_outline,
+                                            size: 28.0,
+                                            color: Colors.blue[300],
+                                          ),
+                                          duration: const Duration(seconds: 2),
+                                          leftBarIndicatorColor: Colors.blue[300],
+                                          flushbarPosition: FlushbarPosition.TOP,
+                                        ).show(context);
+                                      }
+                                    },
+                                    child: Ink(
+                                      decoration: const BoxDecoration(
+                                          color: kBlue,
+                                          borderRadius: BorderRadius.all(Radius.circular(15))
+                                      ),
+                                      child: const Center(child: Text('Book Ticket',
+                                        style: TextStyle(
+                                          color: kWhite,
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      )),
                                     ),
-                                  )),
+                                  ),
                                 ),
                               ),
                             ),
@@ -275,21 +322,21 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 40,vertical: 30),
+                padding: const EdgeInsets.only(left: 40,top: 30),
                 height: MediaQuery.of(context).size.height*0.1,
                 decoration: BoxDecoration(
                     color: kWhite,
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.05),
                         spreadRadius: 0,
                         blurRadius: 10,
-                        offset: Offset(-4, -4), // changes position of shadow
+                        offset: const Offset(-4, -4), // changes position of shadow
                       ),
                     ]
                 ),
-                child: Text(
+                child: const Text(
                   'My Bookings',
                   style: TextStyle(
                     fontSize: 21,

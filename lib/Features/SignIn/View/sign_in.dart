@@ -189,7 +189,9 @@ class SignInScreen extends StatelessWidget {
                                               Provider.of<VerifyEmailProvider>(context,listen: false).getUserEmail()
                                           );
                                           if(controller.user.message == "Logged in Successfully"){
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(
+                                              token: controller.user.data!.token!,
+                                            )));
                                           } else {
                                             Flushbar(
                                               message: controller.user.message,
