@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: 'Poppins',
         ),
-        home: HomePage(token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjIwYmVjMDIxQGlpaXRkbWouYWMuaW4iLCJwdXJwb3NlIjoib3BzIiwibmFtZSI6IkFyeWFuIFdhZGthciIsInJvbGxObyI6IjIwYmVjMDIxIiwibGF0IjoxNjg5OTI4NjU3NjU1LCJhY2Nlc3MiOiJVc2VyIiwiaWF0IjoxNjg5OTI4NjU3fQ.jekYtIhXwn_iLoiwoFDF01SaxDKVD-NcNfrpus06FvM",),
+        home: HomePage(token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjIwYmVjMDIxQGlpaXRkbWouYWMuaW4iLCJwdXJwb3NlIjoib3BzIiwibmFtZSI6IkFyeWFuIFdhZGthciIsInJvbGxObyI6IjIwYmVjMDIxIiwibGF0IjoxNjkwMTA2OTExNTI3LCJhY2Nlc3MiOiJVc2VyIiwiaWF0IjoxNjkwMTA2OTExfQ.8IzPWFvg9_poxlgLpW8arRS5bZnqftu5qXZMvtB13ew",),
       ),
     );
   }

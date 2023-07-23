@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:buts/Constants/constants.dart';
 import 'package:buts/Features/Home/Model/bus_model.dart';
+import 'package:buts/Features/Wallet/Model/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_client_sse/flutter_client_sse.dart';
@@ -16,6 +17,8 @@ class HomePageProvider extends ChangeNotifier {
   List<Bus> busesToCity = [];
   List<Bus> busesToInstitute = [];
   ViewState state = ViewState.Idle;
+  int walletPage = 1;
+  late Wallet walletDetails;
 
   void toggleToCity (){
     _toCity = !_toCity;
@@ -24,6 +27,11 @@ class HomePageProvider extends ChangeNotifier {
 
   void updateSelectCard(int value){
     _selectedIndex = value;
+    notifyListeners();
+  }
+
+  void showMoreTransactions(){
+    walletPage++;
     notifyListeners();
   }
 
@@ -94,6 +102,41 @@ class HomePageProvider extends ChangeNotifier {
       state = ViewState.Error;
       notifyListeners();
       throw Exception(json.decode(response.body)["message"]);
+    }
+  }
+
+  Future<void> getWallet(String token, bool isShow) async {
+    if(isShow){
+      state = ViewState.Busy;
+      notifyListeners();
+    }
+    http.Response response;
+    var url = Uri.parse("https://buts-server.onrender.com/user/wallet");
+    var data = {
+      "page": walletPage
+    };
+    var body = jsonEncode(data);
+    response = await http.post(url,body: body,headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token"
+    }).catchError((e){
+      state = ViewState.Error;
+      notifyListeners();
+      throw Exception(e.toString());
+    });
+    if(response.statusCode == 200){
+      if(walletPage == 1){
+        walletDetails = walletFromJson(response.body);
+      } else {
+        print("here");
+        walletDetails.transactions?.addAll(walletFromJson(response.body).transactions as Iterable<Transaction>);
+      }
+      state = ViewState.Success;
+      notifyListeners();
+    } else {
+      state = ViewState.Error;
+      notifyListeners();
+      throw Exception("Error code: ${response.statusCode}");
     }
   }
 }
