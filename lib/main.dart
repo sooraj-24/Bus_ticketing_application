@@ -1,6 +1,7 @@
 import 'package:buts/Features/BookTicket/View/confirm_booking.dart';
 import 'package:buts/Features/Home/Controller/home_page_provider.dart';
 import 'package:buts/Features/Home/View/home.dart';
+import 'package:buts/Features/MyBookings/Controller/bookings_provider.dart';
 import 'package:buts/Features/MyBookings/View/my_bookings_page.dart';
 import 'package:buts/Features/Queue/Controller/queue_provider.dart';
 import 'package:buts/Features/Queue/View/queue_screen.dart';
@@ -10,7 +11,6 @@ import 'package:buts/Features/Splash/View/splash_screen.dart';
 import 'package:buts/Features/VerifyEmail/Controller/verify_email_provider.dart';
 import 'package:buts/Features/VerifyEmail/View/verify_email_screen.dart';
 import 'package:buts/Features/VerifyEmail/View/verify_otp_screen.dart';
-import 'package:buts/Features/Wallet/Controller/wallet_provider.dart';
 import 'package:buts/Features/Wallet/View/wallet_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:buts/Features/SignIn/View/sign_in.dart';
@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
           create: (context) => QueueProvider(),
         ),
         ChangeNotifierProvider(
-          create: (context) => WalletProvider(),
+          create: (context) => BookingsProvider(),
         ),
       ],
       child: MaterialApp(
@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: 'Poppins',
         ),
-        home: HomePage(token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjIwYmVjMDIxQGlpaXRkbWouYWMuaW4iLCJwdXJwb3NlIjoib3BzIiwibmFtZSI6IkFyeWFuIFdhZGthciIsInJvbGxObyI6IjIwYmVjMDIxIiwibGF0IjoxNjkwMTA2OTExNTI3LCJhY2Nlc3MiOiJVc2VyIiwiaWF0IjoxNjkwMTA2OTExfQ.8IzPWFvg9_poxlgLpW8arRS5bZnqftu5qXZMvtB13ew",),
+        home: HomePage(token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjIwYmVjMDIxQGlpaXRkbWouYWMuaW4iLCJwdXJwb3NlIjoib3BzIiwibmFtZSI6IkFyeWFuIFdhZGthciIsInJvbGxObyI6IjIwYmVjMDIxIiwibGF0IjoxNjkwMzUzMTc3MDE2LCJhY2Nlc3MiOiJVc2VyIiwiaWF0IjoxNjkwMzUzMTc3fQ.7a9UHdSFGwjkHYKpl-4MjXWyillARKDNPG39fiCwx8I",),
       ),
     );
   }

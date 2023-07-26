@@ -5,14 +5,21 @@ import '../../../Constants/constants.dart';
 
 class TicketCard extends StatelessWidget {
   const TicketCard({
-  super.key,
+  super.key, required this.startTime, required this.source, required this.destination, required this.busId, required this.isVerified,
   });
+  final DateTime startTime;
+  final String source;
+  final String destination;
+  final String busId;
+  final bool isVerified;
 
   @override
   Widget build(BuildContext context) {
-    DateTime now = DateTime.now();
-    DateTime date = DateTime(now.year, now.month, now.day);
     List months = ['January', 'February', 'March', 'April', 'May','June','July','Aug','September','October','November','December'];
+    var minute = TimeOfDay.fromDateTime(startTime.toLocal()).minute;
+    var hour = TimeOfDay.fromDateTime(startTime.toLocal()).hourOfPeriod;
+    var period = TimeOfDay.fromDateTime(startTime.toLocal()).period.toString();
+    period = period.substring(10).toUpperCase();
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       height: 200,
@@ -40,17 +47,17 @@ class TicketCard extends StatelessWidget {
             flex: 2,
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 20),
-              decoration: const BoxDecoration(
-                  color: kYellow,
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(15), bottomLeft: Radius.circular(15))
+              decoration: BoxDecoration(
+                  color: isVerified ? kGrey : kYellow,
+                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), bottomLeft: Radius.circular(15))
               ),
               child: Column(
                 children: [
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 7),
-                    decoration: const BoxDecoration(
-                        color: kYellow,
-                        borderRadius: BorderRadius.all(Radius.circular(10))
+                    decoration: BoxDecoration(
+                        color: isVerified ? kGrey : kYellow,
+                        borderRadius: const BorderRadius.all(Radius.circular(10))
                     ),
                     child: const Text('TODAY',
                       style: TextStyle(
@@ -60,13 +67,13 @@ class TicketCard extends StatelessWidget {
                       ),),
                   ),
                   const Expanded(child: SizedBox()),
-                  Text(date.day.toString(),
+                  Text('${startTime.day}',
                     style: const TextStyle(
                         color: kBlack,
                         fontSize: 42,
                         fontWeight: FontWeight.w600
                     ),),
-                  Text(months[date.month-1],
+                  Text('${months[startTime.month-1]}',
                     style: const TextStyle(
                         color: kBlack,
                         fontWeight: FontWeight.w600,
@@ -85,17 +92,17 @@ class TicketCard extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 20,left: 20),
                     child: Row(
                       children: [
-                        const Column(
+                        Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text('Boarding',style: TextStyle(
+                            const Text('Boarding',style: TextStyle(
                                 color: Colors.black45,
                                 fontWeight: FontWeight.w500
                             ),),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text('3:30 PM',style: TextStyle(
+                            Text('${hour}:${minute} ${period}',style: TextStyle(
                                 fontSize: 17
                             ),)
                           ],
@@ -131,13 +138,13 @@ class TicketCard extends StatelessWidget {
                         const SizedBox(
                           width: 20,
                         ),
-                        const Column(
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Institute',style: TextStyle(fontSize: 15),),
-                            Text('To',style: TextStyle(fontSize: 12),),
-                            Text('Sadar',style: TextStyle(fontSize: 15),),
+                            Text(source == 'Insti' ? 'Institute' : source,style: TextStyle(fontSize: 15),),
+                            const Text('To',style: TextStyle(fontSize: 12),),
+                            Text(destination == 'Insti' ? 'Institute' : destination,style: TextStyle(fontSize: 15),),
                           ],
                         ),
                       ],
@@ -150,7 +157,11 @@ class TicketCard extends StatelessWidget {
                       child: Material(
                         color: Colors.transparent,
                         child: InkWell(
-                          onTap: (){},
+                          onTap: (){
+                            if(!isVerified){
+                              //TODO Generate QR
+                            }
+                          },
                           child: Container(
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.black45),

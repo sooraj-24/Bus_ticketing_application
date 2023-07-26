@@ -3,6 +3,7 @@ import 'package:buts/Constants/constants.dart';
 import 'package:buts/Features/BookTicket/View/confirm_booking.dart';
 import 'package:buts/Features/Home/Controller/home_page_provider.dart';
 import 'package:buts/Features/Home/View/bus_selection_card.dart';
+import 'package:buts/Features/MyBookings/View/my_bookings_page.dart';
 import 'package:buts/Features/Wallet/View/wallet_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
@@ -328,7 +329,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.only(left: 40,top: 30),
+                padding: const EdgeInsets.only(left: 40, right: 40),
                 height: MediaQuery.of(context).size.height*0.1,
                 decoration: BoxDecoration(
                     color: kWhite,
@@ -342,11 +343,27 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ]
                 ),
-                child: const Text(
-                  'My Bookings',
-                  style: TextStyle(
-                    fontSize: 21,
-                    fontWeight: FontWeight.w500,
+                child: InkWell(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context){
+                      return MyBookingsPage(token: token);
+                    }));
+                  },
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'My Bookings',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Icon(
+                        Icons.keyboard_arrow_up,
+                        color: kBlack,
+                      ),
+                    ],
                   ),
                 ),
               ),

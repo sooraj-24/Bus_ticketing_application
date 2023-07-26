@@ -1,9 +1,5 @@
-import 'dart:convert';
-
 import 'package:buts/Constants/constants.dart';
 import 'package:buts/Features/Home/Controller/home_page_provider.dart';
-import 'package:buts/Features/MyBookings/View/ticket_card.dart';
-import 'package:buts/Features/Wallet/Controller/wallet_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +15,7 @@ class _WalletScreenState extends State<WalletScreen> {
   final String token;
   @override
   void initState() {
+    Provider.of<HomePageProvider>(context,listen: false).walletPage = 1;
     WidgetsBinding.instance.addPostFrameCallback((_)  async {
       await Provider.of<HomePageProvider>(context,listen: false).getWallet(token, false);
     });
@@ -45,12 +42,12 @@ class _WalletScreenState extends State<WalletScreen> {
                           color: kDarkBlue,
                           borderRadius: BorderRadius.vertical(bottom: Radius.circular(10))
                       ),
-                      child: SafeArea(
+                      child: const SafeArea(
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Column(
+                            Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -107,7 +104,7 @@ class _WalletScreenState extends State<WalletScreen> {
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
+                                const Text(
                                   'Your balance',
                                   style: TextStyle(
                                       fontSize: 16,
@@ -115,8 +112,8 @@ class _WalletScreenState extends State<WalletScreen> {
                                   ),
                                 ),
                                 controller.state == ViewState.Idle
-                                ? Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                ? const Padding(
+                                  padding: EdgeInsets.all(8.0),
                                   child: Center(
                                     child: SizedBox(
                                       height: 15,
@@ -130,7 +127,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                 )
                                     : Text(
                                   '₹${controller.walletDetails.wallet}.00',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 28,
                                       fontWeight: FontWeight.w600
                                   ),
@@ -163,8 +160,8 @@ class _WalletScreenState extends State<WalletScreen> {
               ),
               Container(
                 height: MediaQuery.of(context).size.height*0.56,
-                margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
-                padding: EdgeInsets.symmetric(horizontal: 30,vertical: 20),
+                margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 20),
                 decoration: BoxDecoration(
                     color: kWhite,
                     borderRadius: const BorderRadius.all(Radius.circular(30)),
@@ -187,10 +184,10 @@ class _WalletScreenState extends State<WalletScreen> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    Divider(thickness: 1,),
+                    const Divider(thickness: 1,),
                     Expanded(
                       child: controller.state == ViewState.Idle
-                          ? Center(
+                          ? const Center(
                         child: SizedBox(
                           height: 20,
                           width: 20,
@@ -216,14 +213,14 @@ class _WalletScreenState extends State<WalletScreen> {
                                       borderRadius: BorderRadius.circular(10)
                                   ),
                                   child: controller.state == ViewState.Busy
-                                      ? Center(
+                                      ? const Center(
                                         child: SizedBox(
                                     height: 10,
                                     width: 10,
                                     child: CircularProgressIndicator(strokeWidth: 1, color: kBlue,),
                                   ),
                                       )
-                                      : Center(
+                                      : const Center(
                                         child: Text(
                                     'Show more',
                                     style: TextStyle(
@@ -252,22 +249,22 @@ class _WalletScreenState extends State<WalletScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Booked ticket',
                                       style: TextStyle(
                                         fontSize: 16,
                                       ),
                                     ),
                                     Text(
-                                      '${months[dateTime.month-1]} ${dateTime.day}, ${dateTime.year} at ${hour}:${minute} ${period}',
-                                      style: TextStyle(
+                                      '${months[dateTime.month-1]} ${dateTime.day}, ${dateTime.year} at $hour:$minute $period',
+                                      style: const TextStyle(
                                           fontSize: 13,
                                           color: Colors.black54
                                       ),
                                     ),
                                   ],
                                 ),
-                                Text(
+                                const Text(
                                   '-₹20',
                                   style: TextStyle(
                                       fontSize: 16
