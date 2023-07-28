@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ConfirmBookingPage extends StatelessWidget {
-  const ConfirmBookingPage({Key? key, required this.token}) : super(key: key);
-  final String token;
+  const ConfirmBookingPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
@@ -293,7 +292,7 @@ class ConfirmBookingPage extends StatelessWidget {
                         child: InkWell(
                           onTap: () async {
                             try {
-                              if(await controller.bookTicket(token)){
+                              if(await controller.bookTicket()){
                                 Navigator.pop(context);
                                 Flushbar(
                                   message: "Your ticket has been booked",

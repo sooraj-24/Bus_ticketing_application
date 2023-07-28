@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:buts/Constants/constants.dart';
 import 'package:buts/Features/Home/Model/bus_model.dart';
+import 'package:buts/Features/SignIn/Model/user_model.dart';
 import 'package:buts/Features/Wallet/Model/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -19,6 +20,7 @@ class HomePageProvider extends ChangeNotifier {
   ViewState state = ViewState.Idle;
   int walletPage = 1;
   late Wallet walletDetails;
+  late UserModel user;
 
   void toggleToCity (){
     _toCity = !_toCity;
@@ -35,10 +37,10 @@ class HomePageProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getBuses(String token){
+  void getBuses(){
     try{
       SSEClient.subscribeToSSE(url: "https://buts-server.onrender.com/user/busdata", header: {
-        "Authorization": "Bearer $token"
+        "Authorization": "Bearer ${user.data?.token}"
       }).listen((event) {
         try {
           busResponse = busResponseFromJson(event.data!);
@@ -58,7 +60,7 @@ class HomePageProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> bookTicket(String token) async {
+  Future<bool> bookTicket() async {
     state = ViewState.Busy;
     notifyListeners();
 
@@ -81,7 +83,7 @@ class HomePageProvider extends ChangeNotifier {
     var body = jsonEncode(data);
     response = await http.post(url,body: body,headers: {
       "Content-Type": "application/json",
-      "Authorization": "Bearer $token"
+      "Authorization": "Bearer ${user.data?.token}"
     }).catchError((e){
       state = ViewState.Error;
       notifyListeners();
@@ -105,7 +107,7 @@ class HomePageProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> getWallet(String token, bool isShow) async {
+  Future<void> getWallet(bool isShow) async {
     if(isShow){
       state = ViewState.Busy;
       notifyListeners();
@@ -118,7 +120,7 @@ class HomePageProvider extends ChangeNotifier {
     var body = jsonEncode(data);
     response = await http.post(url,body: body,headers: {
       "Content-Type": "application/json",
-      "Authorization": "Bearer $token"
+      "Authorization": "Bearer ${user.data?.token}"
     }).catchError((e){
       state = ViewState.Error;
       notifyListeners();

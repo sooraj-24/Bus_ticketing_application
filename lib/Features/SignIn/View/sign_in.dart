@@ -190,7 +190,7 @@ class SignInScreen extends StatelessWidget {
                                           );
                                           if(controller.user.message == "Logged in Successfully"){
                                             Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(
-                                              token: controller.user.data!.token!,
+                                              user: controller.user,
                                             )));
                                           } else {
                                             Flushbar(

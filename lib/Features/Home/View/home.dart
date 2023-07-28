@@ -10,20 +10,24 @@ import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/maki_icons.dart';
 import 'package:provider/provider.dart';
 
+import '../../SignIn/Model/user_model.dart';
+
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.token});
-  final String token;
+  const HomePage({super.key, required this.user});
+  final UserModel user;
   @override
-  State<HomePage> createState() => _HomePageState(token: token);
+  State<HomePage> createState() => _HomePageState(user: user);
 }
 
 class _HomePageState extends State<HomePage> {
-  _HomePageState({required this.token});
-  final String token;
+  _HomePageState({required this.user});
+  final UserModel user;
+
   @override
   void initState() {
+    Provider.of<HomePageProvider>(context,listen: false).user = user;
     WidgetsBinding.instance.addPostFrameCallback((_)  {
-      Provider.of<HomePageProvider>(context,listen: false).getBuses(token);
+      Provider.of<HomePageProvider>(context,listen: false).getBuses();
     });
     super.initState();
   }
@@ -83,7 +87,7 @@ class _HomePageState extends State<HomePage> {
                                     onPressed: (){
                                       controller.state = ViewState.Idle;
                                       Navigator.push(context, MaterialPageRoute(builder: (context){
-                                        return WalletScreen(token: token,);
+                                        return WalletScreen();
                                       }));
                                     },
                                     icon: const Icon(Icons.wallet),
@@ -288,7 +292,7 @@ class _HomePageState extends State<HomePage> {
                                           controller.getSelectedIndex < controller.busesToCity.length) || (controller.getToCity == false &&
                                       controller.getSelectedIndex >= 0 && controller.getSelectedIndex < controller.busesToInstitute.length)){
                                         Navigator.push(context, MaterialPageRoute(builder: (context){
-                                          return ConfirmBookingPage(token: token,);
+                                          return ConfirmBookingPage();
                                         }));
                                       } else {
                                         Flushbar(
@@ -346,7 +350,7 @@ class _HomePageState extends State<HomePage> {
                 child: InkWell(
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context){
-                      return MyBookingsPage(token: token);
+                      return MyBookingsPage(token: controller.user.data!.token!, email: controller.user.data!.email!,);
                     }));
                   },
                   child: const Row(

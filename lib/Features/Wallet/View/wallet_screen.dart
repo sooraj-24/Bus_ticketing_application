@@ -4,20 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class WalletScreen extends StatefulWidget {
-  const WalletScreen({Key? key, required this.token}) : super(key: key);
-  final String token;
+  const WalletScreen({Key? key}) : super(key: key);
   @override
-  State<WalletScreen> createState() => _WalletScreenState(token: token);
+  State<WalletScreen> createState() => _WalletScreenState();
 }
 
 class _WalletScreenState extends State<WalletScreen> {
-  _WalletScreenState({required this.token});
-  final String token;
   @override
   void initState() {
     Provider.of<HomePageProvider>(context,listen: false).walletPage = 1;
     WidgetsBinding.instance.addPostFrameCallback((_)  async {
-      await Provider.of<HomePageProvider>(context,listen: false).getWallet(token, false);
+      await Provider.of<HomePageProvider>(context,listen: false).getWallet(false);
     });
     super.initState();
   }
@@ -203,7 +200,7 @@ class _WalletScreenState extends State<WalletScreen> {
                               child: InkWell(
                                 onTap: () async {
                                   controller.showMoreTransactions();
-                                  await controller.getWallet(token, true);
+                                  await controller.getWallet(true);
                                 },
                                 child: Container(
                                   height: 27,

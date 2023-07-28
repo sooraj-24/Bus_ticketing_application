@@ -1,17 +1,18 @@
+import 'package:buts/Features/MyBookings/Controller/bookings_provider.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import '../../../Constants/constants.dart';
 
 class TicketCard extends StatelessWidget {
   const TicketCard({
-  super.key, required this.startTime, required this.source, required this.destination, required this.busId, required this.isVerified,
+  super.key, required this.startTime, required this.source, required this.destination, required this.isVerified, required this.onTap,
   });
   final DateTime startTime;
   final String source;
   final String destination;
-  final String busId;
   final bool isVerified;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -157,11 +158,7 @@ class TicketCard extends StatelessWidget {
                       child: Material(
                         color: Colors.transparent,
                         child: InkWell(
-                          onTap: (){
-                            if(!isVerified){
-                              //TODO Generate QR
-                            }
-                          },
+                          onTap: onTap,
                           child: Container(
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.black45),
@@ -178,7 +175,7 @@ class TicketCard extends StatelessWidget {
                                 SizedBox(
                                   height: 10,
                                 ),
-                                Icon(Icons.qr_code),
+                                Icon(Icons.qr_code)
                               ],
                             ),
                           ),
