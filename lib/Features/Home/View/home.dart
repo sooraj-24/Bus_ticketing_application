@@ -4,6 +4,7 @@ import 'package:buts/Features/BookTicket/View/confirm_booking.dart';
 import 'package:buts/Features/Home/Controller/home_page_provider.dart';
 import 'package:buts/Features/Home/View/bus_selection_card.dart';
 import 'package:buts/Features/MyBookings/View/my_bookings_page.dart';
+import 'package:buts/Features/Queue/View/queue_screen.dart';
 import 'package:buts/Features/Wallet/View/wallet_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
@@ -22,7 +23,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   _HomePageState({required this.user});
   final UserModel user;
-
+  
   @override
   void initState() {
     Provider.of<HomePageProvider>(context,listen: false).user = user;
@@ -34,6 +35,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    bool queueTime = TimeOfDay.now().hour < 13;
     return Scaffold(
       backgroundColor: kAccentBlue,
       body: Consumer<HomePageProvider>(
@@ -87,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                                     onPressed: (){
                                       controller.state = ViewState.Idle;
                                       Navigator.push(context, MaterialPageRoute(builder: (context){
-                                        return WalletScreen();
+                                        return const WalletScreen();
                                       }));
                                     },
                                     icon: const Icon(Icons.wallet),
@@ -288,24 +290,33 @@ class _HomePageState extends State<HomePage> {
                                   color: Colors.transparent,
                                   child: InkWell(
                                     onTap: (){
-                                      if((controller.getToCity == true && controller.getSelectedIndex >= 0 &&
-                                          controller.getSelectedIndex < controller.busesToCity.length) || (controller.getToCity == false &&
-                                      controller.getSelectedIndex >= 0 && controller.getSelectedIndex < controller.busesToInstitute.length)){
+                                      if(queueTime){
                                         Navigator.push(context, MaterialPageRoute(builder: (context){
-                                          return ConfirmBookingPage();
+                                          return QueueScreen(
+                                              buses: controller.getToCity ? controller.busesToCity : controller.busesToInstitute,
+                                            token: controller.user.data!.token!,
+                                          );
                                         }));
                                       } else {
-                                        Flushbar(
-                                          message: "Please select a bus",
-                                          icon: Icon(
-                                            Icons.info_outline,
-                                            size: 28.0,
-                                            color: Colors.blue[300],
-                                          ),
-                                          duration: const Duration(seconds: 2),
-                                          leftBarIndicatorColor: Colors.blue[300],
-                                          flushbarPosition: FlushbarPosition.TOP,
-                                        ).show(context);
+                                        if((controller.getToCity == true && controller.getSelectedIndex >= 0 &&
+                                            controller.getSelectedIndex < controller.busesToCity.length) || (controller.getToCity == false &&
+                                        controller.getSelectedIndex >= 0 && controller.getSelectedIndex < controller.busesToInstitute.length)){
+                                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                                            return const ConfirmBookingPage();
+                                          }));
+                                        } else {
+                                          Flushbar(
+                                            message: "Please select a bus",
+                                            icon: Icon(
+                                              Icons.info_outline,
+                                              size: 28.0,
+                                              color: Colors.blue[300],
+                                            ),
+                                            duration: const Duration(seconds: 2),
+                                            leftBarIndicatorColor: Colors.blue[300],
+                                            flushbarPosition: FlushbarPosition.TOP,
+                                          ).show(context);
+                                        }
                                       }
                                     },
                                     child: Ink(

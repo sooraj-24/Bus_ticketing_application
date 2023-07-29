@@ -4,27 +4,36 @@ import '../../../Constants/constants.dart';
 
 class AddBusCard extends StatelessWidget {
   const AddBusCard({
-  super.key,
+  super.key, required this.startTime, required this.destination, required this.onTap, required this.added,
   });
+
+  final DateTime startTime;
+  final String destination;
+  final VoidCallback onTap;
+  final bool added;
 
   @override
   Widget build(BuildContext context) {
+    var minute = TimeOfDay.fromDateTime(startTime.toLocal()).minute;
+    var hour = TimeOfDay.fromDateTime(startTime.toLocal()).hourOfPeriod;
+    var period = TimeOfDay.fromDateTime(startTime.toLocal()).period.toString();
+    period = period.substring(10).toUpperCase();
     return Container(
       height: 80,
-      margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+      margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.05),
             spreadRadius: 0,
             blurRadius: 10,
-            offset: Offset(4, 4), // changes position of shadow
+            offset: const Offset(4, 4), // changes position of shadow
           ),
           BoxShadow(
             color: Colors.grey.withOpacity(0.05),
             spreadRadius: 0,
             blurRadius: 10,
-            offset: Offset(-4, -4), // changes position of shadow
+            offset: const Offset(-4, -4), // changes position of shadow
           ),
         ],
       ),
@@ -32,14 +41,14 @@ class AddBusCard extends StatelessWidget {
         children: [
           Container(
             width: 10,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: kYellow,
               borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
             ),
           ),
           Expanded(
               child: Container(
-                padding: EdgeInsets.only(left: 20, right: 30),
+                padding: const EdgeInsets.only(left: 20, right: 30),
                 decoration: const BoxDecoration(
                   color: kWhite,
                   borderRadius: BorderRadius.only(topRight: Radius.circular(10), bottomRight: Radius.circular(10)),
@@ -55,24 +64,24 @@ class AddBusCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              '3:30',
-                              style: TextStyle(
+                              '$hour:$minute',
+                              style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w500
                               ),
                             ),
-                            SizedBox(width: 3,),
+                            const SizedBox(width: 3,),
                             Text(
-                              'PM',
-                              style: TextStyle(
+                              period,
+                              style: const TextStyle(
                                   fontSize: 14
                               ),
                             ),
                           ],
                         ),
                         Text(
-                          'Sadar',
-                          style: TextStyle(
+                          destination == 'Insti' ? 'Institute' : destination,
+                          style: const TextStyle(
                               fontSize: 14
                           ),
                         ),
@@ -81,15 +90,15 @@ class AddBusCard extends StatelessWidget {
                     Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: (){},
+                        onTap: added ? (){} : onTap,
                         child: Ink(
                           height: 35,
                           width: 85,
                           decoration: BoxDecoration(
-                            color: kBlue,
+                            color: added ? kGrey : kBlue,
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          child: Row(
+                          child: const Row(
                             children: [
                               SizedBox(width: 8,),
                               Icon(Icons.add, size: 18, color: kWhite,),

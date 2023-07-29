@@ -1,18 +1,15 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:buts/Constants/constants.dart';
-import 'package:buts/Features/Home/Controller/home_page_provider.dart';
 import 'package:buts/Features/Queue/Controller/queue_provider.dart';
-import 'package:buts/Features/SignIn/Controller/sign_in_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttericon/font_awesome5_icons.dart';
-import 'package:fluttericon/maki_icons.dart';
 import 'package:provider/provider.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
-import 'package:buts/Features/Queue/Controller/queue_provider.dart';
+import '../../Home/Model/bus_model.dart';
 import 'add_bus_card.dart';
 
 class QueueScreen extends StatelessWidget {
-  const QueueScreen({super.key});
-
+  const QueueScreen({super.key, required this.buses, required this.token});
+  final List<Bus> buses;
+  final String token;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,10 +24,10 @@ class QueueScreen extends StatelessWidget {
                   child: Stack(
                     children: [
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 40),
+                        padding: const EdgeInsets.symmetric(horizontal: 40),
                         height: MediaQuery.of(context).size.height*0.27,
-                        alignment: Alignment(0,-0.5),
-                        decoration: BoxDecoration(
+                        alignment: const Alignment(0,-0.5),
+                        decoration: const BoxDecoration(
                             color: kDarkBlue,
                             borderRadius: BorderRadius.vertical(bottom: Radius.circular(10))
                         ),
@@ -39,7 +36,7 @@ class QueueScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Column(
+                              const Column(
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -67,17 +64,17 @@ class QueueScreen extends StatelessWidget {
                                     backgroundColor: kWhite,
                                     child: IconButton(
                                       onPressed: (){},
-                                      icon: Icon(Icons.wallet),
+                                      icon: const Icon(Icons.wallet),
                                       color: kYellow,
                                     ),
                                   ),
-                                  SizedBox(width: 10,),
+                                  const SizedBox(width: 10,),
                                   CircleAvatar(
                                     radius: 20,
                                     backgroundColor: kWhite,
                                     child: IconButton(
                                       onPressed: (){},
-                                      icon: Icon(Icons.person),
+                                      icon: const Icon(Icons.person),
                                       color: kYellow,
                                     ),
                                   ),
@@ -95,97 +92,140 @@ class QueueScreen extends StatelessWidget {
                         child: Container(
                           decoration: BoxDecoration(
                             color: kWhite,
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            borderRadius: const BorderRadius.all(Radius.circular(30)),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.withOpacity(0.05),
                                 spreadRadius: 0,
                                 blurRadius: 10,
-                                offset: Offset(4, 4), // changes position of shadow
+                                offset: const Offset(4, 4), // changes position of shadow
                               ),
                               BoxShadow(
                                 color: Colors.grey.withOpacity(0.05),
                                 spreadRadius: 0,
                                 blurRadius: 10,
-                                offset: Offset(-4, -4), // changes position of shadow
+                                offset: const Offset(-4, -4), // changes position of shadow
                               ),
                             ],
                           ),
-                          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 'Preference',
                                 style: TextStyle(
                                   fontSize: 18
                                 ),
                               ),
-                              Divider(thickness: 1,),
+                              const Divider(thickness: 1,),
                               Expanded(
                                 child: ReorderableListView.builder(
                                   padding: EdgeInsets.zero,
                                   onReorder: (oldIndex, newIndex){
-                                    print("reordering");
                                     controller.updatePreference(oldIndex, newIndex);
-                                    print(controller.buses);
                                   },
-                                  itemCount: controller.buses.length,
+                                  itemCount: controller.preferenceList.length,
                                   itemBuilder: (context, index){
                                     return Padding(
-                                      key: ValueKey(controller.buses[index]),
+                                      key: ValueKey(controller.preferenceList[index]),
                                       padding: const EdgeInsets.only(bottom: 8, top: 8),
                                       child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
-                                          GestureDetector(
-                                            child: Icon(Icons.remove_circle_outline, size: 16, color: Colors.black45,),
-                                            onTap: (){
-                                              print(index);
-                                              print(controller.buses);
-                                              controller.removeBus(index);
-                                            },
-                                          ),
-                                          SizedBox(width: 6,),
-                                          Text(
-                                            controller.buses[index],
-                                            style: TextStyle(
-                                              fontSize: 17,
+                                          SizedBox(
+                                            width: 80,
+                                            child: Row(
+                                              children: [
+                                                GestureDetector(
+                                                  child: const Icon(Icons.remove_circle_outline, size: 16, color: Colors.black45,),
+                                                  onTap: (){
+                                                    controller.removeBus(index);
+                                                  },
+                                                ),
+                                                const SizedBox(width: 6,),
+                                                Text(
+                                                  '${TimeOfDay.fromDateTime(controller.preferenceList[index].startTime!.toLocal()).hourOfPeriod}:${TimeOfDay.fromDateTime(controller.preferenceList[index].startTime!.toLocal()).minute} ${TimeOfDay.fromDateTime(controller.preferenceList[index].startTime!.toLocal()).period.toString().substring(10).toUpperCase()}',
+                                                  style: const TextStyle(
+                                                    fontSize: 17,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          Expanded(child: SizedBox(), flex: 5,),
                                           Text(
-                                            'Sadar',
-                                            style: TextStyle(
+                                            controller.preferenceList[index].destination! == 'Insti' ? 'Institute' : 'Sadar',
+                                            style: const TextStyle(
                                               fontSize: 14,
                                             ),
                                           ),
-                                          Expanded(child: SizedBox(), flex: 8,),
-                                          Icon(Icons.reorder, size: 20, color: Colors.black45,),
+                                          Container(
+                                            alignment: Alignment.centerRight,
+                                            width: 80,
+                                              child: const Icon(Icons.reorder, size: 20, color: Colors.black45,)
+                                          ),
                                         ],
                                       ),
                                     );
                                   },
                                 ),
                               ),
-                              SizedBox(height: 5,),
+                              const SizedBox(height: 5,),
                               Material(
                                 color: Colors.transparent,
                                 child: InkWell(
-                                  onTap: (){},
+                                  onTap: () async {
+                                    if(!controller.inQueue){
+                                      try {
+                                        await controller.getInQueue(token);
+                                        if(controller.inQueue){
+                                          Flushbar(
+                                            message: "You're in Queue",
+                                            icon: Icon(
+                                              Icons.info_outline,
+                                              size: 28.0,
+                                              color: Colors.blue[300],
+                                            ),
+                                            duration: const Duration(seconds: 2),
+                                            leftBarIndicatorColor: Colors.blue[300],
+                                            flushbarPosition: FlushbarPosition.TOP,
+                                          ).show(context);
+                                        }
+                                      } catch(e) {
+                                        Flushbar(
+                                          message: e.toString(),
+                                          icon: Icon(
+                                            Icons.info_outline,
+                                            size: 28.0,
+                                            color: Colors.blue[300],
+                                          ),
+                                          duration: const Duration(seconds: 2),
+                                          leftBarIndicatorColor: Colors.blue[300],
+                                          flushbarPosition: FlushbarPosition.TOP,
+                                        ).show(context);
+                                      }
+                                    }
+                                  },
                                   child: Ink(
                                     height: 38,
                                     decoration: BoxDecoration(
-                                      color: kBlue,
+                                      color: controller.inQueue ? kGrey : kBlue,
                                       borderRadius: BorderRadius.circular(15),
                                     ),
                                     child: Center(
-                                      child: Text(
+                                      child: controller.state == ViewState.Busy
+                                          ? const SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: CircularProgressIndicator(color: kWhite, strokeWidth: 2,),
+                                      )
+                                          : const Text(
                                         'Get in Queue',
                                         style: TextStyle(
-                                          color: kWhite,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w500
+                                            color: kWhite,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500
                                         ),
                                       ),
                                     ),
@@ -199,18 +239,21 @@ class QueueScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                const Expanded(
+                Expanded(
                   flex: 2,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        AddBusCard(),
-                        AddBusCard(),
-                        AddBusCard(),
-                        AddBusCard(),
-                        AddBusCard()
-                      ],
-                    ),
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: buses.length,
+                    itemBuilder: (context, index){
+                      return AddBusCard(
+                        startTime: buses[index].startTime!,
+                        destination: buses[index].destination!,
+                        added: controller.preferenceList.contains(buses[index]),
+                        onTap: (){
+                          controller.addBus(buses[index]);
+                        },
+                      );
+                    },
                   ),
                 ),
               ],

@@ -130,7 +130,6 @@ class HomePageProvider extends ChangeNotifier {
       if(walletPage == 1){
         walletDetails = walletFromJson(response.body);
       } else {
-        print("here");
         walletDetails.transactions?.addAll(walletFromJson(response.body).transactions as Iterable<Transaction>);
       }
       state = ViewState.Success;
