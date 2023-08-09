@@ -12,6 +12,15 @@ class VerifyEmailProvider extends ChangeNotifier {
   bool _otpVerified = false;
   bool get isOtpVerified => _otpVerified;
   String token = "";
+  String _password = '';
+  String _passwordErrorText = '';
+  bool _passwordError = false;
+  bool _confirmPassError = false;
+  String get getPassword => _password;
+  bool get getPasswordError => _passwordError;
+  String get getPasswordErrorText => _passwordErrorText;
+  bool get getConfirmPassError => _confirmPassError;
+  bool passwordReset = false;
 
   void updateEmail(String email){
     _email = email;
@@ -20,6 +29,26 @@ class VerifyEmailProvider extends ChangeNotifier {
 
   void updateState(){
     state = ViewState.Error;
+    notifyListeners();
+  }
+
+  void updatePassword(String text){
+    _password = text;
+    notifyListeners();
+  }
+
+  void updatePasswordError(bool error){
+    _passwordError = error;
+    notifyListeners();
+  }
+
+  void updatePasswordErrorText(String text){
+    _passwordErrorText = text;
+    notifyListeners();
+  }
+
+  void updateConfirmPassError(bool error){
+    _confirmPassError = error;
     notifyListeners();
   }
 
@@ -117,6 +146,8 @@ class VerifyEmailProvider extends ChangeNotifier {
       throw Exception(e.toString());
     });
     if(response.statusCode == 200){
+      Map<String,dynamic> output = jsonDecode(response.body);
+      token = output["token"];
       _otpVerified = true;
       state = ViewState.Success;
       notifyListeners();
@@ -125,6 +156,41 @@ class VerifyEmailProvider extends ChangeNotifier {
       _otpVerified = false;
       notifyListeners();
       throw Exception("Invalid OTP!");
+    } else {
+      state = ViewState.Error;
+      _otpVerified = false;
+      notifyListeners();
+      throw Exception("Error code: ${response.statusCode}");
+    }
+    state = ViewState.Success;
+    notifyListeners();
+  }
+
+  Future<void> resetPass() async {
+    state = ViewState.Busy;
+    notifyListeners();
+
+    http.Response response;
+    var url = Uri.parse("https://buts-server.onrender.com/user/resetPassVerifyOTP");
+    var data = {
+      "newpass": _password
+    };
+    var body = json.encode(data);
+    response = await http.patch(url,body: body,headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token"
+    }).catchError((e){
+      state = ViewState.Error;
+      notifyListeners();
+      throw Exception(e.toString());
+    });
+    if(response.statusCode == 200){
+      Map<String,dynamic> output = jsonDecode(response.body);
+      if(output["message"] == "Password reset successfully"){
+        passwordReset = true;
+      }
+      state = ViewState.Success;
+      notifyListeners();
     } else {
       state = ViewState.Error;
       _otpVerified = false;

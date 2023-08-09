@@ -85,13 +85,12 @@ class SignUpProvider extends ChangeNotifier {
   Future<void> registerUser(String token) async {
     state = ViewState.Busy;
     notifyListeners();
-    
     http.Response response;
     var url = Uri.parse("https://buts-server.onrender.com/user/register");
     var data = {
       "name": _username,
       "password": _password,
-      "rollno": _rollNo
+      "rollNo": _rollNo
     };
     var body = jsonEncode(data);
     response = await http.post(url,body: body,headers: {

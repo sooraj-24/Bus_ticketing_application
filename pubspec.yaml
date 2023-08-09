@@ -47,6 +47,7 @@ dependencies:
   flutter_client_sse: ^1.0.0
   eventsource: ^0.4.0
   qr_flutter: ^4.1.0
+  shared_preferences: ^2.2.0
 
 dev_dependencies:
   flutter_test:

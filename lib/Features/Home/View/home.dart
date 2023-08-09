@@ -11,6 +11,7 @@ import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/maki_icons.dart';
 import 'package:provider/provider.dart';
 
+import '../../Profile/View/profile_page.dart';
 import '../../SignIn/Model/user_model.dart';
 
 class HomePage extends StatefulWidget {
@@ -101,7 +102,11 @@ class _HomePageState extends State<HomePage> {
                                   radius: 20,
                                   backgroundColor: kWhite,
                                   child: IconButton(
-                                    onPressed: (){},
+                                    onPressed: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                                        return ProfileScreen();
+                                      }));
+                                    },
                                     icon: const Icon(Icons.person),
                                     color: kYellow,
                                   ),
@@ -302,7 +307,7 @@ class _HomePageState extends State<HomePage> {
                                             controller.getSelectedIndex < controller.busesToCity.length) || (controller.getToCity == false &&
                                         controller.getSelectedIndex >= 0 && controller.getSelectedIndex < controller.busesToInstitute.length)){
                                           Navigator.push(context, MaterialPageRoute(builder: (context){
-                                            return const ConfirmBookingPage();
+                                            return ConfirmBookingPage();
                                           }));
                                         } else {
                                           Flushbar(

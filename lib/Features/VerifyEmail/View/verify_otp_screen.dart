@@ -1,6 +1,7 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:buts/Features/SignUp/View/sign_up.dart';
 import 'package:buts/Features/VerifyEmail/Controller/verify_email_provider.dart';
+import 'package:buts/Features/VerifyEmail/View/reset_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
@@ -54,7 +55,7 @@ class VerifyOtpScreen extends StatelessWidget {
                               height: 10,
                             ),
                             Text(
-                              'Enter the code from the sms we sent to ${controller.getEmail}@iiitdmj.ac.in',
+                              'Enter the verification code we sent to ${controller.getEmail}@iiitdmj.ac.in',
                               style: const TextStyle(fontSize: 15),
                             )
                           ],
@@ -130,7 +131,9 @@ class VerifyOtpScreen extends StatelessWidget {
                                       if(isForgotPasswordScreen){
                                         await controller.verifyForgotPassOTP(otp);
                                         if(controller.isOtpVerified){
-                                          print("otp verified");
+                                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+                                            return ResetPasswordScreen();
+                                          }));
                                         }
                                       } else {
                                         await controller.verifyOtp(otp);

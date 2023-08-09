@@ -49,7 +49,7 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     name: json["name"],
-    rollno: json["rollno"],
+    rollno: json["rollNo"],
     email: json["email"],
     token: json["token"],
     wallet: json["wallet"],
