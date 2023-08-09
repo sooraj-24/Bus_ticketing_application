@@ -28,8 +28,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     Provider.of<HomePageProvider>(context,listen: false).user = user;
-    WidgetsBinding.instance.addPostFrameCallback((_)  {
+    WidgetsBinding.instance.addPostFrameCallback((_)  async {
       Provider.of<HomePageProvider>(context,listen: false).getBuses();
+      await Provider.of<HomePageProvider>(context,listen: false).storeData();
     });
     super.initState();
   }

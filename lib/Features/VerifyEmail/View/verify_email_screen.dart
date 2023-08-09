@@ -32,19 +32,11 @@ class VerifyEmailScreen extends StatelessWidget {
                       flex: 4,
                       child: Container(
                         color: kAccentBlue,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Text(
-                              "BuTS",
-                              style: TextStyle(
-                                  fontSize: 48, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              "Your daily ride companion.",
-                              style: TextStyle(fontSize: 15),
-                            )
-                          ],
+                        padding: EdgeInsets.symmetric(horizontal: 80),
+                        child: Image.asset(
+                          'assets/images/Logo1.png',
+                          width: 100,
+                          height: 100,
                         ),
                       )),
                   Consumer<VerifyEmailProvider>(

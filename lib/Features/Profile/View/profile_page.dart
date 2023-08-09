@@ -2,8 +2,10 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:buts/Constants/constants.dart';
 import 'package:buts/Features/Home/Controller/home_page_provider.dart';
 import 'package:buts/Features/SignIn/Controller/sign_in_provider.dart';
+import 'package:buts/Features/VerifyEmail/View/verify_email_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../VerifyEmail/View/verify_otp_screen.dart';
 
@@ -252,7 +254,15 @@ class ProfileScreen extends StatelessWidget {
                 child: Material(
                   color: Colors.transparent,
                   child: InkWell(
-                    onTap: (){},
+                    onTap: () async {
+                      SharedPreferences sp = await SharedPreferences.getInstance();
+                      sp.clear();
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (BuildContext context) => VerifyEmailScreen()),
+                          ModalRoute.withName('/')
+                      );
+                    },
                     child: Ink(
                       height: 50,
                       decoration: const BoxDecoration(

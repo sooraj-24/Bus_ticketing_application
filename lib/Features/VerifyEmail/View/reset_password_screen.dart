@@ -210,7 +210,11 @@ class ResetPasswordScreen extends StatelessWidget {
                                     try {
                                       await controller.resetPass();
                                       if(controller.passwordReset){
-                                        Navigator.popUntil(context, (route) => route.isFirst);
+                                        Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(builder: (BuildContext context) => VerifyEmailScreen()),
+                                            ModalRoute.withName('/')
+                                        );
                                       }
                                     } catch(e) {
                                       Flushbar(

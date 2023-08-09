@@ -6,6 +6,7 @@ import 'package:buts/Features/Wallet/Model/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_client_sse/flutter_client_sse.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePageProvider extends ChangeNotifier {
   PageController _pageController = PageController();
@@ -139,5 +140,12 @@ class HomePageProvider extends ChangeNotifier {
       notifyListeners();
       throw Exception("Error code: ${response.statusCode}");
     }
+  }
+
+  Future<void> storeData() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    String userData = userModelToJson(user);
+    sp.setString('user', userData);
+    print(userData);
   }
 }
