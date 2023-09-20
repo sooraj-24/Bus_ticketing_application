@@ -138,7 +138,7 @@ class VerifyOtpScreen extends StatelessWidget {
                                       } else {
                                         await controller.verifyOtp(otp);
                                         if(controller.isOtpVerified){
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen()));
+                                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignUpScreen()));
                                         }
                                       }
                                     } catch(e) {

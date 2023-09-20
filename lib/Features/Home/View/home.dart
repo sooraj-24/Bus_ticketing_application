@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/maki_icons.dart';
 import 'package:provider/provider.dart';
-
 import '../../Profile/View/profile_page.dart';
 import '../../SignIn/Model/user_model.dart';
 
@@ -37,7 +36,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    bool queueTime = TimeOfDay.now().hour < 13;
     return Scaffold(
       backgroundColor: kAccentBlue,
       body: Consumer<HomePageProvider>(
@@ -296,20 +294,32 @@ class _HomePageState extends State<HomePage> {
                                   color: Colors.transparent,
                                   child: InkWell(
                                     onTap: (){
-                                      if(queueTime){
+                                      if(controller.getToCity){
                                         Navigator.push(context, MaterialPageRoute(builder: (context){
                                           return QueueScreen(
-                                              buses: controller.getToCity ? controller.busesToCity : controller.busesToInstitute,
+                                              buses: controller.busesToCity,
                                             token: controller.user.data!.token!,
                                           );
                                         }));
                                       } else {
-                                        if((controller.getToCity == true && controller.getSelectedIndex >= 0 &&
-                                            controller.getSelectedIndex < controller.busesToCity.length) || (controller.getToCity == false &&
-                                        controller.getSelectedIndex >= 0 && controller.getSelectedIndex < controller.busesToInstitute.length)){
-                                          Navigator.push(context, MaterialPageRoute(builder: (context){
-                                            return ConfirmBookingPage();
-                                          }));
+                                        if(controller.getSelectedIndex >= 0 && controller.getSelectedIndex < controller.busesToInstitute.length){
+                                          if(controller.busesToInstitute[controller.getSelectedIndex].sessionStart!){
+                                            Flushbar(
+                                              message: "Bus session already started",
+                                              icon: Icon(
+                                                Icons.info_outline,
+                                                size: 28.0,
+                                                color: Colors.blue[300],
+                                              ),
+                                              duration: const Duration(seconds: 2),
+                                              leftBarIndicatorColor: Colors.blue[300],
+                                              flushbarPosition: FlushbarPosition.TOP,
+                                            ).show(context);
+                                          } else {
+                                            Navigator.push(context, MaterialPageRoute(builder: (context){
+                                              return ConfirmBookingPage();
+                                            }));
+                                          }
                                         } else {
                                           Flushbar(
                                             message: "Please select a bus",
@@ -330,8 +340,9 @@ class _HomePageState extends State<HomePage> {
                                           color: kBlue,
                                           borderRadius: BorderRadius.all(Radius.circular(15))
                                       ),
-                                      child: const Center(child: Text('Book Ticket',
-                                        style: TextStyle(
+                                      child: Center(child: Text(
+                                        controller.getToCity ? "Get in Queue" : "Book Ticket",
+                                        style: const TextStyle(
                                           color: kWhite,
                                           fontSize: 17,
                                           fontWeight: FontWeight.w600,

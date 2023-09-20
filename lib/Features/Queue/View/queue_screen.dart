@@ -1,6 +1,9 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:buts/Constants/constants.dart';
+import 'package:buts/Features/Home/Controller/home_page_provider.dart';
+import 'package:buts/Features/Profile/View/profile_page.dart';
 import 'package:buts/Features/Queue/Controller/queue_provider.dart';
+import 'package:buts/Features/Wallet/View/wallet_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../Home/Model/bus_model.dart';
@@ -63,7 +66,12 @@ class QueueScreen extends StatelessWidget {
                                     radius: 20,
                                     backgroundColor: kWhite,
                                     child: IconButton(
-                                      onPressed: (){},
+                                      onPressed: (){
+                                        Provider.of<HomePageProvider>(context, listen: false).state = ViewState.Idle;
+                                        Navigator.push(context, MaterialPageRoute(builder: (context){
+                                          return WalletScreen();
+                                        }));
+                                      },
                                       icon: const Icon(Icons.wallet),
                                       color: kYellow,
                                     ),
@@ -73,7 +81,11 @@ class QueueScreen extends StatelessWidget {
                                     radius: 20,
                                     backgroundColor: kWhite,
                                     child: IconButton(
-                                      onPressed: (){},
+                                      onPressed: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context){
+                                          return ProfileScreen();
+                                        }));
+                                      },
                                       icon: const Icon(Icons.person),
                                       color: kYellow,
                                     ),
@@ -135,7 +147,7 @@ class QueueScreen extends StatelessWidget {
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
                                           SizedBox(
-                                            width: 80,
+                                            width: 100,
                                             child: Row(
                                               children: [
                                                 GestureDetector(
@@ -146,7 +158,7 @@ class QueueScreen extends StatelessWidget {
                                                 ),
                                                 const SizedBox(width: 6,),
                                                 Text(
-                                                  '${TimeOfDay.fromDateTime(controller.preferenceList[index].startTime!.toLocal()).hourOfPeriod}:${TimeOfDay.fromDateTime(controller.preferenceList[index].startTime!.toLocal()).minute} ${TimeOfDay.fromDateTime(controller.preferenceList[index].startTime!.toLocal()).period.toString().substring(10).toUpperCase()}',
+                                                  '${TimeOfDay.fromDateTime(controller.preferenceList[index].startTime!.toLocal()).hourOfPeriod}:${TimeOfDay.fromDateTime(controller.preferenceList[index].startTime!.toLocal()).minute == 0 ? "00" : TimeOfDay.fromDateTime(controller.preferenceList[index].startTime!.toLocal()).minute} ${TimeOfDay.fromDateTime(controller.preferenceList[index].startTime!.toLocal()).period.toString().substring(10).toUpperCase()}',
                                                   style: const TextStyle(
                                                     fontSize: 17,
                                                   ),
@@ -155,15 +167,18 @@ class QueueScreen extends StatelessWidget {
                                             ),
                                           ),
                                           Text(
-                                            controller.preferenceList[index].destination! == 'Insti' ? 'Institute' : 'Sadar',
+                                            controller.preferenceList[index].destination! == 'Institute' ? 'Institute' : 'Sadar',
                                             style: const TextStyle(
                                               fontSize: 14,
                                             ),
                                           ),
-                                          Container(
-                                            alignment: Alignment.centerRight,
-                                            width: 80,
-                                              child: const Icon(Icons.reorder, size: 20, color: Colors.black45,)
+                                          SizedBox(
+                                            width: 100,
+                                            child: Container(
+                                              alignment: Alignment.centerRight,
+                                              width: 80,
+                                                child: const Icon(Icons.reorder, size: 20, color: Colors.black45,)
+                                            ),
                                           ),
                                         ],
                                       ),

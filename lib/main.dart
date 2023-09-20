@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'BuTS',
+        title: 'UniGo',
         theme: ThemeData(
           fontFamily: 'Poppins',
         ),

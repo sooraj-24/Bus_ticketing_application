@@ -60,7 +60,7 @@ class BusSelectionCard extends StatelessWidget {
                         const VerticalDivider(
                           thickness: 1.5,
                         ),
-                        Text(destination == 'Insti' ? 'Institute' : 'Sadar',
+                        Text(destination == 'Institute' ? 'Institute' : 'Sadar',
                           style: const TextStyle(
                             fontSize: 15,
                           ),),

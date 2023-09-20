@@ -1,6 +1,7 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:buts/Constants/constants.dart';
 import 'package:buts/Features/Home/Controller/home_page_provider.dart';
+import 'package:buts/Features/Wallet/View/wallet_screen.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,9 +10,17 @@ class ConfirmBookingPage extends StatelessWidget {
   const ConfirmBookingPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    DateTime now = DateTime.now();
-    DateTime date = DateTime(now.year, now.month, now.day);
-    List months = ['Jan', 'Feb', 'Mar', 'Apr', 'May','Jun','Jul','Aug','Sept','Oct','Nov','Dec'];
+    DateTime startTime;
+    if(Provider.of<HomePageProvider>(context, listen: false).getToCity){
+      startTime = Provider.of<HomePageProvider>(context, listen: false).busesToCity[Provider.of<HomePageProvider>(context).getSelectedIndex].startTime!;
+    } else {
+      startTime = Provider.of<HomePageProvider>(context, listen: false).busesToInstitute[Provider.of<HomePageProvider>(context).getSelectedIndex].startTime!;
+    }
+    List months = ['January', 'February', 'March', 'April', 'May','June','July','Aug','September','October','November','December'];
+    var minute = TimeOfDay.fromDateTime(startTime.toLocal()).minute;
+    var hour = TimeOfDay.fromDateTime(startTime.toLocal()).hourOfPeriod;
+    var period = TimeOfDay.fromDateTime(startTime.toLocal()).period.toString();
+    period = period.substring(10).toUpperCase();
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -75,7 +84,12 @@ class ConfirmBookingPage extends StatelessWidget {
                               radius: 20,
                               backgroundColor: kWhite,
                               child: IconButton(
-                                onPressed: (){},
+                                onPressed: (){
+                                  controller.state = ViewState.Idle;
+                                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                                    return WalletScreen();
+                                  }));
+                                },
                                 icon: const Icon(Icons.wallet),
                                 color: kYellow,
                               ),
@@ -85,7 +99,11 @@ class ConfirmBookingPage extends StatelessWidget {
                               radius: 20,
                               backgroundColor: kWhite,
                               child: IconButton(
-                                onPressed: (){},
+                                onPressed: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                                    return WalletScreen();
+                                  }));
+                                },
                                 icon: const Icon(Icons.person),
                                 color: kYellow,
                               ),
@@ -137,7 +155,7 @@ class ConfirmBookingPage extends StatelessWidget {
                           const SizedBox(
                             width: 65,
                             child: Text(
-                              'Institute',
+                              "Sadar",
                               style: TextStyle(
                                   fontSize: 16
                               ),
@@ -195,7 +213,7 @@ class ConfirmBookingPage extends StatelessWidget {
                           const SizedBox(
                             width: 65,
                             child: Text(
-                              'Sadar',
+                              'Institute',
                               textAlign: TextAlign.end,
                               style: TextStyle(
                                   fontSize: 16
@@ -215,16 +233,16 @@ class ConfirmBookingPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '${months[date.month-1]} ${date.day.toString()}',
+                                  '${months[DateTime.now().month-1]} ${DateTime.now().day}',
                                   style: const TextStyle(
                                       fontSize: 15,
                                       color: Colors.black45,
                                       fontWeight: FontWeight.w500
                                   ),
                                 ),
-                                const Text(
-                                  '3:30 PM',
-                                  style: TextStyle(
+                                Text(
+                                  minute == 0 ? '$hour:${minute}0' : '$hour:$minute',
+                                  style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w500
                                   ),
@@ -250,9 +268,9 @@ class ConfirmBookingPage extends StatelessWidget {
                                     color: kAccentBlue,
                                     borderRadius: BorderRadius.circular(8)
                                 ),
-                                child: const Text(
-                                  '42',
-                                  style: TextStyle(
+                                child: Text(
+                                  controller.getToCity ? "${controller.busesToCity[controller.getSelectedIndex].capacity}" : "${controller.busesToInstitute[controller.getSelectedIndex].capacity}",
+                                  style: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500
                                   ),

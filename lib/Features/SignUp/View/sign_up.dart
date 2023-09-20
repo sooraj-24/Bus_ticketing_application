@@ -341,9 +341,11 @@ class SignUpScreen extends StatelessWidget {
                                         try{
                                           await controller.registerUser(Provider.of<VerifyEmailProvider>(context, listen: false).token);
                                           if(controller.user.message == "Registered Successfully!"){
-                                            Navigator.push(context, MaterialPageRoute(builder: (context){
-                                              return HomePage(user: controller.user,);
-                                            }));
+                                            Navigator.pushAndRemoveUntil(
+                                                context,
+                                                MaterialPageRoute(builder: (BuildContext context) => HomePage(user: controller.user)),
+                                                ModalRoute.withName('/')
+                                            );
                                           } else {
                                             Flushbar(
                                               message: controller.user.message,
@@ -405,7 +407,11 @@ class SignUpScreen extends StatelessWidget {
                                       const Text("Already have an account?  "),
                                       GestureDetector(
                                         onTap: (){
-                                          Navigator.push(context, MaterialPageRoute(builder: (context){return const VerifyEmailScreen();}));
+                                          Navigator.pushAndRemoveUntil(
+                                              context,
+                                              MaterialPageRoute(builder: (BuildContext context) => VerifyEmailScreen()),
+                                              ModalRoute.withName('/')
+                                          );
                                         },
                                         child: const Text(
                                           "Sign In",

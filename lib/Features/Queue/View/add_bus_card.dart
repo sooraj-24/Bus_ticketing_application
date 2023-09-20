@@ -64,7 +64,7 @@ class AddBusCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              '$hour:$minute',
+                              minute == 0 ? '$hour:${minute}0' : '$hour:$minute',
                               style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w500
@@ -80,7 +80,7 @@ class AddBusCard extends StatelessWidget {
                           ],
                         ),
                         Text(
-                          destination == 'Insti' ? 'Institute' : destination,
+                          destination == 'Institute' ? 'Institute' : destination,
                           style: const TextStyle(
                               fontSize: 14
                           ),

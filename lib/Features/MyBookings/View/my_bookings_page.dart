@@ -1,10 +1,14 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:buts/Constants/constants.dart';
+import 'package:buts/Features/Home/Controller/home_page_provider.dart';
 import 'package:buts/Features/MyBookings/Controller/bookings_provider.dart';
 import 'package:buts/Features/MyBookings/View/ticket_card.dart';
+import 'package:buts/Features/Profile/View/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+
+import '../../Wallet/View/wallet_screen.dart';
 
 class MyBookingsPage extends StatefulWidget {
   const MyBookingsPage({Key? key, required this.token, required this.email}) : super(key: key);
@@ -79,7 +83,12 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
                                       radius: 20,
                                       backgroundColor: kWhite,
                                       child: IconButton(
-                                        onPressed: (){},
+                                        onPressed: (){
+                                          Provider.of<HomePageProvider>(context, listen: false).state = ViewState.Idle;
+                                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                                            return WalletScreen();
+                                          }));
+                                        },
                                         icon: const Icon(Icons.wallet),
                                         color: kYellow,
                                       ),
@@ -89,7 +98,11 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
                                       radius: 20,
                                       backgroundColor: kWhite,
                                       child: IconButton(
-                                        onPressed: (){},
+                                        onPressed: (){
+                                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                                            return ProfileScreen();
+                                          }));
+                                        },
                                         icon: const Icon(Icons.person),
                                         color: kYellow,
                                       ),
@@ -182,7 +195,7 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
                           child: Padding(
                             padding: EdgeInsets.only(left: 30.0, right: 30, top: 20),
                             child: controller.state == ViewState.Idle
-                                ? Center(
+                                ? const Center(
                               child: SizedBox(
                                 height: 20,
                                 width: 20,
@@ -202,9 +215,6 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
                                     if(!controller.bookings.tickets![index].verified!){
                                       try {
                                         await controller.getQR(token, controller.bookings.tickets![index].busId!);
-                                        print(controller.code);
-                                        print(email);
-                                        print(controller.bookings.tickets![index].busId);
                                         return showDialog(
                                             context: context,
                                             builder: (BuildContext context){
@@ -213,16 +223,30 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
                                                 shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                     BorderRadius.circular(10.0)), //this right here
-                                                child: Container(
-                                                  height: 400,
-                                                  width: double.infinity,
-                                                  padding: EdgeInsets.symmetric(horizontal: 27),
-                                                  child: QrImageView(
-                                                    padding: EdgeInsets.only(top: 27),
-                                                    data: "${email} ${controller.code} ${controller.bookings.tickets![index].busId}",
-                                                    version: QrVersions.auto,
-                                                    // size: 400.0,
-                                                  ),
+                                                child: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    SizedBox(height: 20,),
+                                                    Text(
+                                                      'Scan QR',
+                                                      style: TextStyle(
+                                                        fontSize: 26,
+                                                        fontWeight: FontWeight.w500
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      height: 400,
+                                                      width: double.infinity,
+                                                      padding: EdgeInsets.symmetric(horizontal: 27),
+                                                      child: QrImageView(
+                                                        padding: EdgeInsets.only(top: 27),
+                                                        data: "${email} ${controller.code} ${controller.bookings.tickets![index].busId}",
+                                                        version: QrVersions.auto,
+                                                        // size: 400.0,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               );
                                             }

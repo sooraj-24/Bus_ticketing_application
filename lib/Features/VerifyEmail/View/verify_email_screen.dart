@@ -32,7 +32,7 @@ class VerifyEmailScreen extends StatelessWidget {
                       flex: 4,
                       child: Container(
                         color: kAccentBlue,
-                        padding: EdgeInsets.symmetric(horizontal: 80),
+                        padding: const EdgeInsets.symmetric(horizontal: 80),
                         child: Image.asset(
                           'assets/images/Logo1.png',
                           width: 100,

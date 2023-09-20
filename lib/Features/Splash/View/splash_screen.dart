@@ -1,13 +1,9 @@
 import 'package:buts/Constants/constants.dart';
 import 'package:buts/Features/Home/View/home.dart';
-import 'package:buts/Features/MyBookings/Controller/bookings_provider.dart';
-import 'package:buts/Features/SignIn/View/sign_in.dart';
 import 'package:buts/Features/VerifyEmail/View/verify_email_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import '../../Home/Controller/home_page_provider.dart';
 import '../../SignIn/Model/user_model.dart';
 
 class SplashScreen extends StatefulWidget {

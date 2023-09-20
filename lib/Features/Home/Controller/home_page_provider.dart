@@ -43,6 +43,7 @@ class HomePageProvider extends ChangeNotifier {
       SSEClient.subscribeToSSE(url: "https://buts-server.onrender.com/user/busdata", header: {
         "Authorization": "Bearer ${user.data?.token}"
       }).listen((event) {
+        print(event.data);
         try {
           busResponse = busResponseFromJson(event.data!);
         } catch(e) {
@@ -52,7 +53,7 @@ class HomePageProvider extends ChangeNotifier {
           }
         }
         busesToCity = List.from(busResponse.data!.where((element) => element.destination == "Sadar"));
-        busesToInstitute = List.from(busResponse.data!.where((element) => element.destination == "Insti"));
+        busesToInstitute = List.from(busResponse.data!.where((element) => element.destination == "Institute"));
         state = ViewState.Success;
         notifyListeners();
       });

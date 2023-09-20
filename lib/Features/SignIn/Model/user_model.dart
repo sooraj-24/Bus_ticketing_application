@@ -57,7 +57,7 @@ class Data {
 
   Map<String, dynamic> toJson() => {
     "name": name,
-    "rollno": rollno,
+    "rollNo": rollno,
     "email": email,
     "token": token,
     "wallet": wallet,

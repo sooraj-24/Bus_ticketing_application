@@ -68,13 +68,13 @@ class TicketCard extends StatelessWidget {
                       ),),
                   ),
                   const Expanded(child: SizedBox()),
-                  Text('${startTime.day}',
+                  Text('${DateTime.now().day}',
                     style: const TextStyle(
                         color: kBlack,
                         fontSize: 42,
                         fontWeight: FontWeight.w600
                     ),),
-                  Text('${months[startTime.month-1]}',
+                  Text('${months[DateTime.now().month-1]}',
                     style: const TextStyle(
                         color: kBlack,
                         fontWeight: FontWeight.w600,
@@ -103,7 +103,7 @@ class TicketCard extends StatelessWidget {
                             const SizedBox(
                               height: 10,
                             ),
-                            Text('${hour}:${minute} ${period}',style: TextStyle(
+                            Text(minute == 0 ? '$hour:${minute}0 $period' : '$hour:$minute $period',style: const TextStyle(
                                 fontSize: 17
                             ),)
                           ],
@@ -143,9 +143,9 @@ class TicketCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(source == 'Insti' ? 'Institute' : source,style: TextStyle(fontSize: 15),),
+                            Text(source == 'Institute' ? 'Institute' : source,style: TextStyle(fontSize: 15),),
                             const Text('To',style: TextStyle(fontSize: 12),),
-                            Text(destination == 'Insti' ? 'Institute' : destination,style: TextStyle(fontSize: 15),),
+                            Text(destination == 'Institute' ? 'Institute' : destination,style: TextStyle(fontSize: 15),),
                           ],
                         ),
                       ],
