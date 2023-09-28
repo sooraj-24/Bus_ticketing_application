@@ -6,6 +6,8 @@ UniGo is an emerging Bus Utility Ticketing System that aims to effectively tackl
 - Cash-based transactions only
 - Insufficient information about ticket vacancies
 
+The Bus Ticketing System consists of two applications, one for the students and the other one for the conductors. You can access the conductor application here - https://github.com/sooraj-24/Bus_ticketing_app-Conductor
+
 ## Features
 
 - A virtual queuing system that operates on a first-come, first-served basis.
