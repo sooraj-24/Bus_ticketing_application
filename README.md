@@ -14,3 +14,35 @@ UniGo is an emerging Bus Utility Ticketing System that aims to effectively tackl
 - Centralized information about all campus buses.
 - An online local wallet and access to your daily bookings.
 - An intuitive and innovative User Interface and User Experience.
+
+## Running the App Locally
+
+To run this application on your local machine, follow these steps:
+
+### Prerequisites
+
+1. Ensure you have Flutter and Dart installed on your system. If not, you can follow the installation instructions here: [Flutter Installation Guide](https://flutter.dev/docs/get-started/install).
+
+Clone the Repository
+```bash
+git clone https://github.com/sooraj-24/Bus_ticketing_application.git
+```
+
+Navigate to the project directory
+```bash
+cd Bus_ticketing_application
+```
+
+Install dependencies
+```bash
+flutter pub get
+```
+
+Run the app:
+```bash
+flutter run
+```
+
+## Questions and Feedback
+If you have any questions or encounter issues while running the app locally, feel free to reach out at 2sooraj4@gmail.com.
+I hope you enjoy using UniGo!
