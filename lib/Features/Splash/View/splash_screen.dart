@@ -43,6 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
           throw Exception(e.toString());
         });
         if(response.statusCode == 200){
+          print(user.data?.token);
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
             return HomePage(user: user);
           }));

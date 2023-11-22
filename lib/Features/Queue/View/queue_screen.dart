@@ -6,7 +6,9 @@ import 'package:buts/Features/Queue/Controller/queue_provider.dart';
 import 'package:buts/Features/Wallet/View/wallet_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../Home/Model/bus_model.dart';
+import '../../VerifyEmail/View/verify_email_screen.dart';
 import 'add_bus_card.dart';
 
 class QueueScreen extends StatelessWidget {
@@ -193,20 +195,30 @@ class QueueScreen extends StatelessWidget {
                                   onTap: () async {
                                     if(!controller.inQueue){
                                       try {
-                                        await controller.getInQueue(token);
-                                        if(controller.inQueue){
-                                          Flushbar(
-                                            message: "You're in Queue",
-                                            icon: Icon(
-                                              Icons.info_outline,
-                                              size: 28.0,
-                                              color: Colors.blue[300],
-                                            ),
-                                            duration: const Duration(seconds: 2),
-                                            leftBarIndicatorColor: Colors.blue[300],
-                                            flushbarPosition: FlushbarPosition.TOP,
-                                          ).show(context);
+                                        SharedPreferences sp = await SharedPreferences.getInstance();
+                                        String? userData = sp.getString('user');
+                                        if(userData == null || userData.isEmpty){
+                                          await Future.delayed(Duration(milliseconds: 1500));
+                                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                                            return VerifyEmailScreen();
+                                          }));
+                                        } else {
+                                          await controller.getInQueue(token);
+                                          if(controller.inQueue){
+                                            Flushbar(
+                                              message: "You're in Queue",
+                                              icon: Icon(
+                                                Icons.info_outline,
+                                                size: 28.0,
+                                                color: Colors.blue[300],
+                                              ),
+                                              duration: const Duration(seconds: 2),
+                                              leftBarIndicatorColor: Colors.blue[300],
+                                              flushbarPosition: FlushbarPosition.TOP,
+                                            ).show(context);
+                                          }
                                         }
+
                                       } catch(e) {
                                         Flushbar(
                                           message: e.toString(),

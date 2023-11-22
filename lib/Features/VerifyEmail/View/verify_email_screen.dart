@@ -130,7 +130,7 @@ class VerifyEmailScreen extends StatelessWidget {
                                         try {
                                           await controller.fetchData();
                                           if(controller.user.message == "Exists"){
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => SignInScreen()));
+                                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignInScreen()));
                                           } else if(controller.user.message == "OTP sent successfully"){
                                             Navigator.push(context, MaterialPageRoute(builder: (context) => VerifyOtpScreen(
                                               isForgotPasswordScreen: false,
