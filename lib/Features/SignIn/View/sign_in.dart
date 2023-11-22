@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:buts/Constants/constants.dart';
 import 'package:provider/provider.dart';
 
+import '../../Home/Controller/home_page_provider.dart';
+
 class SignInScreen extends StatelessWidget {
   const SignInScreen({super.key});
 
@@ -181,11 +183,14 @@ class SignInScreen extends StatelessWidget {
                                               Provider.of<VerifyEmailProvider>(context,listen: false).getUserEmail()
                                           );
                                           if(controller.user.message == "Logged in Successfully"){
-                                            Navigator.pushAndRemoveUntil(
-                                                context,
-                                                MaterialPageRoute(builder: (BuildContext context) => HomePage(user: controller.user)),
-                                                ModalRoute.withName('/')
-                                            );
+                                            // Navigator.pushAndRemoveUntil(
+                                            //     context,
+                                            //     MaterialPageRoute(builder: (BuildContext context) => HomePage(user: controller.user)),
+                                            //     ModalRoute.withName('/')
+                                            // );
+                                            Navigator.pop(context);
+                                            Provider.of<HomePageProvider>(context,listen: false).user = controller.user;
+                                            await Provider.of<HomePageProvider>(context,listen: false).storeData();
                                           } else {
                                             Flushbar(
                                               message: controller.user.message,

@@ -41,7 +41,7 @@ class HomePageProvider extends ChangeNotifier {
   void getBuses(){
     try{
       SSEClient.subscribeToSSE(url: "https://buts-server.onrender.com/user/busdata", header: {
-        "Authorization": "Bearer ${user.data?.token}"
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjIwYmVjMTA1QGlpaXRkbWouYWMuaW4iLCJwdXJwb3NlIjoib3BzIiwibmFtZSI6InNvb3JhaiIsInJvbGxObyI6IjIwYmVjMTA1IiwibGF0IjoxNzAwNjYwMzI4MDMxLCJhY2Nlc3MiOiJVc2VyIiwiaWF0IjoxNzAwNjYwMzI4fQ.BVwG8_QEHewfvxHxjFWURSRBWe8OMQt7jRa5544bgZY"
       }).listen((event) {
         print(event.data);
         try {

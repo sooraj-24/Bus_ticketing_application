@@ -1,6 +1,7 @@
 import 'package:buts/Features/BookTicket/View/confirm_booking.dart';
 import 'package:buts/Features/Home/Controller/home_page_provider.dart';
 import 'package:buts/Features/Home/View/home.dart';
+import 'package:buts/Features/Home/View/new_home.dart';
 import 'package:buts/Features/MyBookings/Controller/bookings_provider.dart';
 import 'package:buts/Features/MyBookings/View/my_bookings_page.dart';
 import 'package:buts/Features/Profile/View/profile_page.dart';
@@ -55,7 +56,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: 'Poppins',
         ),
-        home: SplashScreen(),
+        home: NewHomePage(),
       ),
     );
   }
